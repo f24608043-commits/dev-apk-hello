@@ -79,22 +79,18 @@ export default function ProductDetailPage() {
         return; 
       }
       setCartStatus('');
-      console.log('Adding to cart:', { userId: user.id, productId: product!.id, quantity });
       
       const { data: existing, error: fetchError } = await supabase.from('cart_items').select('id, quantity').eq('user_id', user.id).eq('product_id', product!.id).single();
       
       if (fetchError && fetchError.code !== 'PGRST116') { // PGRST116 is "not found" error
-        console.error('Error checking existing cart item:', fetchError);
         throw fetchError;
       }
       
       if (existing) {
-        console.log('Updating existing cart item:', existing);
         const { error: updateError } = await supabase.from('cart_items').update({ quantity: existing.quantity + quantity }).eq('id', existing.id);
         if (updateError) throw updateError;
         setCartStatus(`UPDATED QUANTITY TO ${existing.quantity + quantity}`);
       } else {
-        console.log('Inserting new cart item');
         const { error: insertError } = await supabase.from('cart_items').insert({ user_id: user.id, product_id: product!.id, quantity });
         if (insertError) throw insertError;
         setCartStatus('ADDED TO CART');

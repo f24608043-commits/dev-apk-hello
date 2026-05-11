@@ -16,13 +16,11 @@ export default function CartPage() {
     queryKey: ['cart', user?.id],
     queryFn: async () => {
       if (!user?.id) throw new Error('User not authenticated');
-      console.log('Fetching cart for user:', user.id);
       const { data, error } = await supabase
         .from('cart_items')
-        .select('*, products(id, name, slug, price, stock, images)')
+        .select('*, products(id, name, slug, price, stock)')
         .eq('user_id', user.id);
       if (error) throw error;
-      console.log('Cart items fetched:', data);
       return data ?? [];
     },
     enabled: !!user?.id,
@@ -124,11 +122,7 @@ export default function CartPage() {
                     <td className="py-4">
                       <div className="flex items-center gap-3">
                         <div className="h-10 w-10 flex-shrink-0 bg-muted flex items-center justify-center overflow-hidden">
-                          {product.images?.[0] ? (
-                            <img src={product.images[0]} alt="" className="h-full w-full object-cover" />
-                          ) : (
-                            <span className="text-[8px] text-muted-foreground">IMG</span>
-                          )}
+                          <span className="text-[8px] text-muted-foreground">IMG</span>
                         </div>
                         <Link to={`/product/${product.slug}`} className="text-sm font-medium hover:text-accent">{product.name}</Link>
                       </div>
