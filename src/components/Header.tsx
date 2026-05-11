@@ -1,11 +1,13 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
+import { useTheme } from '@/context/ThemeContext';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useState } from 'react';
 
 export default function Header() {
   const { user, profile, isAdmin, signOut } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchValue, setSearchValue] = useState('');
@@ -85,6 +87,14 @@ export default function Header() {
               SEARCH
             </button>
           )}
+
+          <button
+            onClick={toggleTheme}
+            className="font-mono text-xs font-bold uppercase tracking-widest hover:text-accent ml-4"
+            title="Toggle theme"
+          >
+            {theme === 'default' ? '🌙' : '🍋'}
+          </button>
 
           <Link to="/cart" className="relative font-mono text-xs font-bold uppercase tracking-widest hover:text-accent">
             CART

@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/context/AuthContext";
 import { ProtectedRoute, AdminRoute } from "@/components/RouteGuards";
+import { ThemeProvider } from "@/context/ThemeContext";
 import StoreLayout from "@/components/StoreLayout";
 import AdminLayout from "@/components/AdminLayout";
 import HomePage from "@/pages/Home";
@@ -35,41 +36,43 @@ const queryClient = new QueryClient();
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <BrowserRouter>
+      <ThemeProvider>
         <AuthProvider>
-          <Routes>
-            <Route path="/login" element={<LoginPage />} />
-            <Route element={<StoreLayout />}>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/shop" element={<ShopPage />} />
-              <Route path="/product/:slug" element={<ProductDetailPage />} />
-              <Route path="/blog" element={<BlogPage />} />
-              <Route path="/blog/:slug" element={<BlogPostPage />} />
-              <Route path="/cart" element={<ProtectedRoute><CartPage /></ProtectedRoute>} />
-              <Route path="/checkout" element={<ProtectedRoute><CheckoutPage /></ProtectedRoute>} />
-              <Route path="/order-confirmation" element={<ProtectedRoute><OrderConfirmationPage /></ProtectedRoute>} />
-              <Route path="/account" element={<ProtectedRoute><AccountPage /></ProtectedRoute>} />
-              <Route path="/account/orders" element={<ProtectedRoute><AccountPage /></ProtectedRoute>} />
-              <Route path="/account/orders/:id" element={<ProtectedRoute><OrderDetailPage /></ProtectedRoute>} />
-            </Route>
-            <Route path="/admin" element={<AdminRoute><AdminLayout /></AdminRoute>}>
-              <Route index element={<AdminDashboard />} />
-              <Route path="products" element={<AdminProducts />} />
-              <Route path="categories" element={<AdminCategories />} />
-              <Route path="brands" element={<AdminBrands />} />
-              <Route path="deals" element={<AdminDeals />} />
-              <Route path="orders" element={<AdminOrders />} />
-              <Route path="coupons" element={<AdminCoupons />} />
-              <Route path="reviews" element={<AdminReviews />} />
-              <Route path="blog" element={<AdminBlog />} />
-              <Route path="subscribers" element={<AdminSubscribers />} />
-              <Route path="users" element={<AdminUsers />} />
-              <Route path="settings" element={<AdminSettings />} />
-            </Route>
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/login" element={<LoginPage />} />
+              <Route element={<StoreLayout />}>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/shop" element={<ShopPage />} />
+                <Route path="/product/:slug" element={<ProductDetailPage />} />
+                <Route path="/blog" element={<BlogPage />} />
+                <Route path="/blog/:slug" element={<BlogPostPage />} />
+                <Route path="/cart" element={<ProtectedRoute><CartPage /></ProtectedRoute>} />
+                <Route path="/checkout" element={<ProtectedRoute><CheckoutPage /></ProtectedRoute>} />
+                <Route path="/order-confirmation" element={<ProtectedRoute><OrderConfirmationPage /></ProtectedRoute>} />
+                <Route path="/account" element={<ProtectedRoute><AccountPage /></ProtectedRoute>} />
+                <Route path="/account/orders" element={<ProtectedRoute><AccountPage /></ProtectedRoute>} />
+                <Route path="/account/orders/:id" element={<ProtectedRoute><OrderDetailPage /></ProtectedRoute>} />
+              </Route>
+              <Route path="/admin" element={<AdminRoute><AdminLayout /></AdminRoute>}>
+                <Route index element={<AdminDashboard />} />
+                <Route path="products" element={<AdminProducts />} />
+                <Route path="categories" element={<AdminCategories />} />
+                <Route path="brands" element={<AdminBrands />} />
+                <Route path="deals" element={<AdminDeals />} />
+                <Route path="orders" element={<AdminOrders />} />
+                <Route path="coupons" element={<AdminCoupons />} />
+                <Route path="reviews" element={<AdminReviews />} />
+                <Route path="blog" element={<AdminBlog />} />
+                <Route path="subscribers" element={<AdminSubscribers />} />
+                <Route path="users" element={<AdminUsers />} />
+                <Route path="settings" element={<AdminSettings />} />
+              </Route>
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
         </AuthProvider>
-      </BrowserRouter>
+      </ThemeProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );
