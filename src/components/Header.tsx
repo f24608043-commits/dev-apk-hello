@@ -4,6 +4,7 @@ import { useTheme } from '@/context/ThemeContext';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useState } from 'react';
+import { SearchIcon, CartIcon, AccountIcon, SunIcon, MoonIcon } from '@/components/Icons';
 
 export default function Header() {
   const { user, profile, isAdmin, signOut } = useAuth();
@@ -84,21 +85,23 @@ export default function Header() {
               <button type="button" onClick={() => setSearchOpen(false)} className="px-2 font-mono text-xs">✕</button>
             </form>
           ) : (
-            <button onClick={() => setSearchOpen(true)} className="font-mono text-xs font-bold uppercase tracking-widest hover:text-accent">
-              🔍 SEARCH
+            <button onClick={() => setSearchOpen(true)} className="font-mono text-xs font-bold uppercase tracking-widest hover:text-accent flex items-center gap-2">
+              <SearchIcon className="w-4 h-4" />
+              <span>SEARCH</span>
             </button>
           )}
 
           <button
             onClick={toggleTheme}
-            className="font-mono text-xs font-bold uppercase tracking-widest hover:text-accent"
+            className="font-mono text-xs font-bold uppercase tracking-widest hover:text-accent flex items-center gap-2"
             title="Toggle theme"
           >
-            {theme === 'light' ? '🌙' : '☀️'}
+            {theme === 'light' ? <MoonIcon className="w-4 h-4" /> : <SunIcon className="w-4 h-4" />}
           </button>
 
-          <Link to="/cart" className="relative font-mono text-xs font-bold uppercase tracking-widest hover:text-accent">
-              🛒 CART
+          <Link to="/cart" className="relative font-mono text-xs font-bold uppercase tracking-widest hover:text-accent flex items-center gap-2">
+              <CartIcon className="w-4 h-4" />
+              <span>CART</span>
             {(cartCount ?? 0) > 0 && (
               <span className="absolute -right-3 -top-2 flex h-4 w-4 items-center justify-center bg-accent text-[10px] font-bold text-accent-foreground">
                 {cartCount}
@@ -108,8 +111,9 @@ export default function Header() {
 
           {user ? (
             <div className="relative">
-              <button onClick={() => setMenuOpen(!menuOpen)} className="font-mono text-xs font-bold uppercase tracking-widest hover:text-accent">
-                👤 ACCOUNT
+              <button onClick={() => setMenuOpen(!menuOpen)} className="font-mono text-xs font-bold uppercase tracking-widest hover:text-accent flex items-center gap-2">
+                <AccountIcon className="w-4 h-4" />
+                <span>ACCOUNT</span>
               </button>
               {menuOpen && (
                 <div className="absolute right-0 top-full z-50 mt-1 w-48 border-2 border-foreground bg-background">

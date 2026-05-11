@@ -41,14 +41,14 @@
   }
 
   .theme-dark {
-    --background: 222 47% 11%;
+    --background: 0 0% 0%;
     --foreground: 255 255 255;
     --card: 31 41 55;
     --card-foreground: 255 255 255;
     --popover: 31 41 55;
     --popover-foreground: 255 255 255;
     --primary: 255 255 255;
-    --primary-foreground: 222 47% 11%;
+    --primary-foreground: 0 0% 0%;
     --secondary: 210 40% 96%;
     --secondary-foreground: 255 255 255;
     --muted: 210 40% 96%;
@@ -63,7 +63,7 @@
     --sidebar-background: 31 41 55;
     --sidebar-foreground: 255 255 255;
     --sidebar-primary: 255 255 255;
-    --sidebar-primary-foreground: 222 47% 11%;
+    --sidebar-primary-foreground: 0 0% 0%;
     --sidebar-accent: 221 83% 53%;
     --sidebar-accent-foreground: 255 255 255;
     --sidebar-border: 214 32% 91%;
