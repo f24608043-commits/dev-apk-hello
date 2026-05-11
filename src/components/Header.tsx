@@ -64,6 +64,7 @@ export default function Header() {
           <Link to="/" className="text-xs font-bold uppercase tracking-widest text-foreground hover:text-accent">HOME</Link>
           <Link to="/shop" className="text-xs font-bold uppercase tracking-widest text-foreground hover:text-accent">SHOP</Link>
           <Link to="/blog" className="text-xs font-bold uppercase tracking-widest text-foreground hover:text-accent">BLOG</Link>
+          <Link to="/about" className="text-xs font-bold uppercase tracking-widest text-foreground hover:text-accent">ABOUT</Link>
           {parentCategories.map((category) => (
             <Link key={category.id} to={`/shop?category=${category.slug}`} className="text-xs font-bold uppercase tracking-widest text-foreground hover:text-accent">
               {category.name}
