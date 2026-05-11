@@ -1,0 +1,90 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222 47% 11%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+    --primary: 222 47% 11%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222 47% 11%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+    --accent: 221 83% 53%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 222 47% 11%;
+    --radius: 2px;
+    --sidebar-background: 222 47% 11%;
+    --sidebar-foreground: 210 40% 96%;
+    --sidebar-primary: 221 83% 53%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 222 47% 15%;
+    --sidebar-accent-foreground: 210 40% 96%;
+    --sidebar-border: 222 47% 18%;
+    --sidebar-ring: 221 83% 53%;
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 100%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+    --font-sans: 'IBM Plex Sans', sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+  }
+
+  * {
+    @apply border-border;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-feature-settings: 'kern' 1;
+  }
+
+  /* No transitions anywhere */
+  *, *::before, *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+@layer components {
+  .data-text {
+    @apply font-mono tabular-nums;
+  }
+  .display-heading {
+    @apply font-semibold tracking-tight text-foreground;
+  }
+  .label-text {
+    @apply text-xs font-bold uppercase tracking-widest text-muted-foreground;
+  }
+  .status-pending {
+    @apply text-warning font-mono text-xs font-bold uppercase;
+  }
+  .status-processing {
+    @apply text-accent font-mono text-xs font-bold uppercase;
+  }
+  .status-shipped {
+    @apply text-accent font-mono text-xs font-bold uppercase;
+  }
+  .status-delivered {
+    @apply text-success font-mono text-xs font-bold uppercase;
+  }
+  .status-cancelled {
+    @apply text-destructive font-mono text-xs font-bold uppercase;
+  }
+  .nav-dropdown-parent:hover .nav-dropdown-menu {
+    display: block;
+  }
+}
