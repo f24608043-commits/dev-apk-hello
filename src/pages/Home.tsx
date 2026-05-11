@@ -53,9 +53,9 @@ function FeaturedProducts() {
     <section className="border-t-2 border-foreground py-12">
       <div className="mx-auto max-w-7xl px-6">
         <h2 className="display-heading mb-8 text-xl">FEATURED PRODUCTS</h2>
-        <div className="grid grid-cols-1 gap-px border border-border bg-border sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-2 border border-border bg-border sm:grid-cols-2 lg:grid-cols-4">
           {products.map((p) => (
-            <div key={p.id} className="bg-background p-4">
+            <div key={p.id} className="bg-background p-3">
               <Link to={`/product/${p.slug}`}>
                 <div className="mb-4 aspect-square bg-muted flex items-center justify-center overflow-hidden">
                   {p.image_1 ? (

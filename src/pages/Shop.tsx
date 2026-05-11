@@ -230,9 +230,9 @@ export default function ShopPage() {
             <p className="font-mono text-xs text-muted-foreground">NO PRODUCTS FOUND.</p>
           ) : (
             <>
-              <div className="grid grid-cols-1 gap-px border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
+              <div className="grid grid-cols-2 gap-2 border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
                 {productsData?.products.map((p) => (
-                  <div key={p.id} className="bg-background p-4">
+                  <div key={p.id} className="bg-background p-3">
                     <Link to={`/product/${p.slug}`}>
                       <div className="mb-4 aspect-square bg-muted flex items-center justify-center overflow-hidden">
                         {p.image_1 ? (
