@@ -1,11 +1,13 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
+import { useTheme } from '@/context/ThemeContext';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useState } from 'react';
 
 export default function Header() {
   const { user, profile, isAdmin, signOut } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchValue, setSearchValue] = useState('');
@@ -59,12 +61,13 @@ export default function Header() {
 
         <nav className="hidden items-center gap-8 md:flex">
           <Link to="/" className="text-xs font-bold uppercase tracking-widest text-foreground hover:text-accent">HOME</Link>
+          <Link to="/shop" className="text-xs font-bold uppercase tracking-widest text-foreground hover:text-accent">SHOP</Link>
+          <Link to="/blog" className="text-xs font-bold uppercase tracking-widest text-foreground hover:text-accent">BLOG</Link>
           {parentCategories.map((category) => (
             <Link key={category.id} to={`/shop?category=${category.slug}`} className="text-xs font-bold uppercase tracking-widest text-foreground hover:text-accent">
               {category.name}
             </Link>
           ))}
-          <Link to="/blog" className="text-xs font-bold uppercase tracking-widest text-foreground hover:text-accent">BLOG</Link>
         </nav>
 
         <div className="flex items-center gap-4">
@@ -82,12 +85,20 @@ export default function Header() {
             </form>
           ) : (
             <button onClick={() => setSearchOpen(true)} className="font-mono text-xs font-bold uppercase tracking-widest hover:text-accent">
-              SEARCH
+              🔍 SEARCH
             </button>
           )}
 
+          <button
+            onClick={toggleTheme}
+            className="font-mono text-xs font-bold uppercase tracking-widest hover:text-accent"
+            title="Toggle theme"
+          >
+            {theme === 'light' ? '🌙' : '☀️'}
+          </button>
+
           <Link to="/cart" className="relative font-mono text-xs font-bold uppercase tracking-widest hover:text-accent">
-            CART
+              🛒 CART
             {(cartCount ?? 0) > 0 && (
               <span className="absolute -right-3 -top-2 flex h-4 w-4 items-center justify-center bg-accent text-[10px] font-bold text-accent-foreground">
                 {cartCount}
@@ -98,7 +109,7 @@ export default function Header() {
           {user ? (
             <div className="relative">
               <button onClick={() => setMenuOpen(!menuOpen)} className="font-mono text-xs font-bold uppercase tracking-widest hover:text-accent">
-                ACCOUNT
+                👤 ACCOUNT
               </button>
               {menuOpen && (
                 <div className="absolute right-0 top-full z-50 mt-1 w-48 border-2 border-foreground bg-background">
