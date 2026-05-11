@@ -85,25 +85,23 @@ export default function Header() {
               <button type="button" onClick={() => setSearchOpen(false)} className="px-2 font-mono text-xs">✕</button>
             </form>
           ) : (
-            <button onClick={() => setSearchOpen(true)} className="font-mono text-xs font-bold uppercase tracking-widest hover:text-accent flex items-center gap-2">
-              <SearchIcon className="w-4 h-4" />
-              <span>SEARCH</span>
+            <button onClick={() => setSearchOpen(true)} className="p-2 hover:text-accent" title="Search">
+              <SearchIcon className="w-5 h-5" />
             </button>
           )}
 
           <button
             onClick={toggleTheme}
-            className="font-mono text-xs font-bold uppercase tracking-widest hover:text-accent flex items-center gap-2"
+            className="p-2 hover:text-accent"
             title="Toggle theme"
           >
-            {theme === 'light' ? <MoonIcon className="w-4 h-4" /> : <SunIcon className="w-4 h-4" />}
+            {theme === 'light' ? <MoonIcon className="w-5 h-5" /> : <SunIcon className="w-5 h-5" />}
           </button>
 
-          <Link to="/cart" className="relative font-mono text-xs font-bold uppercase tracking-widest hover:text-accent flex items-center gap-2">
-              <CartIcon className="w-4 h-4" />
-              <span>CART</span>
+          <Link to="/cart" className="relative p-2 hover:text-accent" title="Cart">
+              <CartIcon className="w-5 h-5" />
             {(cartCount ?? 0) > 0 && (
-              <span className="absolute -right-3 -top-2 flex h-4 w-4 items-center justify-center bg-accent text-[10px] font-bold text-accent-foreground">
+              <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center bg-accent text-[10px] font-bold text-accent-foreground">
                 {cartCount}
               </span>
             )}
@@ -111,9 +109,8 @@ export default function Header() {
 
           {user ? (
             <div className="relative">
-              <button onClick={() => setMenuOpen(!menuOpen)} className="font-mono text-xs font-bold uppercase tracking-widest hover:text-accent flex items-center gap-2">
-                <AccountIcon className="w-4 h-4" />
-                <span>ACCOUNT</span>
+              <button onClick={() => setMenuOpen(!menuOpen)} className="p-2 hover:text-accent" title="Account">
+                <AccountIcon className="w-5 h-5" />
               </button>
               {menuOpen && (
                 <div className="absolute right-0 top-full z-50 mt-1 w-48 border-2 border-foreground bg-background">
