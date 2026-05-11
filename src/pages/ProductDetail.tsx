@@ -125,7 +125,7 @@ export default function ProductDetailPage() {
   if (isLoading) return <div className="p-6 font-mono text-xs text-muted-foreground">FETCHING DATA...</div>;
   if (!product) return <div className="p-6 font-mono text-xs text-destructive">PRODUCT_NOT_FOUND.</div>;
 
-  const allImages = (product.images || []).filter(Boolean) as string[];
+  const allImages = [product.image_1, product.image_2, product.image_3].filter(Boolean) as string[];
   const mainImage = selectedImage ?? allImages[0];
   const brand = product.brands as any;
   const category = product.categories as any;
