@@ -130,6 +130,7 @@ export default function Header() {
           })}
 
           <Link to="/blog" className="text-xs font-bold uppercase tracking-widest text-foreground hover:text-accent">BLOG</Link>
+          <Link to="/contact" className="text-xs font-bold uppercase tracking-widest text-foreground hover:text-accent">CONTACT</Link>
           <Link to="/about" className="text-xs font-bold uppercase tracking-widest text-foreground hover:text-accent">ABOUT</Link>
         </nav>
 
@@ -249,6 +250,7 @@ export default function Header() {
           })}
           
           <Link to="/blog" onClick={() => setMenuOpen(false)} className="block py-2 text-xs font-bold uppercase tracking-widest">BLOG</Link>
+          <Link to="/contact" onClick={() => setMenuOpen(false)} className="block py-2 text-xs font-bold uppercase tracking-widest">CONTACT</Link>
           <Link to="/about" onClick={() => setMenuOpen(false)} className="block py-2 text-xs font-bold uppercase tracking-widest">ABOUT</Link>
         </div>
       )}
