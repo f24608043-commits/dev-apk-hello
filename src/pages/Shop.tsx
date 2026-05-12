@@ -119,141 +119,159 @@ export default function ShopPage() {
   const totalPages = Math.ceil((productsData?.total ?? 0) / perPage);
 
   return (
-    <div className="mx-auto max-w-7xl px-6 py-8">
-      <h1 className="display-heading mb-8 text-2xl">SHOP</h1>
+    <div className="min-h-screen bg-gray-50 relative overflow-hidden">
+      {/* Background decorative elements */}
+      <div className="absolute top-20 left-20 w-72 h-72 bg-gray-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
+      <div className="absolute top-40 right-20 w-72 h-72 bg-gray-400 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
+      <div className="absolute -bottom-8 left-40 w-72 h-72 bg-gray-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-4000"></div>
 
-      <div className="grid grid-cols-12 gap-8">
-        {/* Sidebar */}
-        <aside className="col-span-12 space-y-6 md:col-span-3">
-          <div>
-            <h3 className="label-text mb-3">CATEGORIES</h3>
-            {parentCategories.map((parent) => {
-              const subs = getSubcategories(parent.id);
-              return (
-                <div key={parent.id}>
-                  <label className="flex items-center gap-2 py-1">
-                    <input
-                      type="checkbox"
-                      checked={filters.category === parent.slug}
-                      onChange={() => updateParam('category', filters.category === parent.slug ? '' : parent.slug)}
-                      className="accent-foreground"
-                    />
-                    <span className="text-xs font-bold">{parent.name}</span>
-                  </label>
-                  {subs.map((sub) => (
-                    <label key={sub.id} className="flex items-center gap-2 py-1" style={{ paddingLeft: 16 }}>
+      <div className="relative z-10 container mx-auto px-4 py-16">
+        {/* Hero Section */}
+        <div className="text-center mb-16">
+          <h1 className="text-4xl md:text-5xl font-bold text-black mb-4">Shop</h1>
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">Discover our complete range of herbal remedies</p>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          {/* Sidebar */}
+          <aside className="lg:col-span-1 space-y-6">
+            <div className="backdrop-blur-xl bg-white/20 border border-white/30 rounded-3xl p-6 shadow-2xl">
+              <h3 className="text-lg font-bold text-black mb-4">Categories</h3>
+              {parentCategories.map((parent) => {
+                const subs = getSubcategories(parent.id);
+                return (
+                  <div key={parent.id} className="mb-4">
+                    <label className="flex items-center gap-3 py-2 cursor-pointer hover:bg-white/10 rounded-lg px-2 transition-colors duration-300">
                       <input
                         type="checkbox"
-                        checked={filters.category === sub.slug}
-                        onChange={() => updateParam('category', filters.category === sub.slug ? '' : sub.slug)}
-                        className="accent-foreground"
+                        checked={filters.category === parent.slug}
+                        onChange={() => updateParam('category', filters.category === parent.slug ? '' : parent.slug)}
+                        className="w-4 h-4 text-black bg-white border-gray-300 rounded focus:ring-black focus:ring-2"
                       />
-                      <span className="text-xs">{sub.name}</span>
+                      <span className="text-sm font-medium text-black">{parent.name}</span>
                     </label>
-                  ))}
-                </div>
-              );
-            })}
-          </div>
-
-          <div>
-            <h3 className="label-text mb-3">BRANDS</h3>
-            {brands?.map((b) => (
-              <label key={b.id} className="flex items-center gap-2 py-1">
-                <input
-                  type="checkbox"
-                  checked={filters.brand === b.slug}
-                  onChange={() => updateParam('brand', filters.brand === b.slug ? '' : b.slug)}
-                  className="accent-foreground"
-                />
-                <span className="text-xs">{b.name}</span>
-              </label>
-            ))}
-          </div>
-
-          <div>
-            <h3 className="label-text mb-3">PRICE RANGE</h3>
-            <div className="flex gap-2">
-              <input
-                type="number"
-                placeholder="MIN"
-                value={filters.minPrice}
-                onChange={(e) => updateParam('min_price', e.target.value)}
-                className="w-full border-2 border-border bg-background p-2 font-mono text-xs outline-none focus:border-foreground"
-              />
-              <input
-                type="number"
-                placeholder="MAX"
-                value={filters.maxPrice}
-                onChange={(e) => updateParam('max_price', e.target.value)}
-                className="w-full border-2 border-border bg-background p-2 font-mono text-xs outline-none focus:border-foreground"
-              />
+                    {subs.map((sub) => (
+                      <label key={sub.id} className="flex items-center gap-3 py-2 pl-8 cursor-pointer hover:bg-white/10 rounded-lg px-2 transition-colors duration-300">
+                        <input
+                          type="checkbox"
+                          checked={filters.category === sub.slug}
+                          onChange={() => updateParam('category', filters.category === sub.slug ? '' : sub.slug)}
+                          className="w-4 h-4 text-black bg-white border-gray-300 rounded focus:ring-black focus:ring-2"
+                        />
+                        <span className="text-sm text-gray-600">{sub.name}</span>
+                      </label>
+                    ))}
+                  </div>
+                );
+              })}
             </div>
-          </div>
-        </aside>
+
+            <div className="backdrop-blur-xl bg-white/20 border border-white/30 rounded-3xl p-6 shadow-2xl">
+              <h3 className="text-lg font-bold text-black mb-4">Brands</h3>
+              <div className="space-y-2 max-h-48 overflow-y-auto">
+                {brands?.map((b) => (
+                  <label key={b.id} className="flex items-center gap-3 py-2 cursor-pointer hover:bg-white/10 rounded-lg px-2 transition-colors duration-300">
+                    <input
+                      type="checkbox"
+                      checked={filters.brand === b.slug}
+                      onChange={() => updateParam('brand', filters.brand === b.slug ? '' : b.slug)}
+                      className="w-4 h-4 text-black bg-white border-gray-300 rounded focus:ring-black focus:ring-2"
+                    />
+                    <span className="text-sm text-gray-600">{b.name}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            <div className="backdrop-blur-xl bg-white/20 border border-white/30 rounded-3xl p-6 shadow-2xl">
+              <h3 className="text-lg font-bold text-black mb-4">Price Range</h3>
+              <div className="flex gap-3">
+                <input
+                  type="number"
+                  placeholder="MIN"
+                  value={filters.minPrice}
+                  onChange={(e) => updateParam('min_price', e.target.value)}
+                  className="flex-1 bg-white/30 backdrop-blur-sm border-2 border-white/40 p-3 rounded-2xl font-mono text-sm text-gray-800 placeholder-gray-500 outline-none focus:border-black focus:bg-white/50 transition-all duration-300"
+                />
+                <input
+                  type="number"
+                  placeholder="MAX"
+                  value={filters.maxPrice}
+                  onChange={(e) => updateParam('max_price', e.target.value)}
+                  className="flex-1 bg-white/30 backdrop-blur-sm border-2 border-white/40 p-3 rounded-2xl font-mono text-sm text-gray-800 placeholder-gray-500 outline-none focus:border-black focus:bg-white/50 transition-all duration-300"
+                />
+              </div>
+            </div>
+          </aside>
 
         {/* Main content */}
-        <div className="col-span-12 md:col-span-9">
-          <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <input
-              type="text"
-              placeholder="SEARCH PRODUCTS..."
-              value={filters.search}
-              onChange={(e) => updateParam('search', e.target.value)}
-              className="border-2 border-border bg-background p-2 font-mono text-xs outline-none focus:border-foreground sm:w-64"
-            />
-            <select
-              value={filters.sort}
-              onChange={(e) => updateParam('sort', e.target.value)}
-              className="border-2 border-border bg-background p-2 font-mono text-xs outline-none focus:border-foreground"
-            >
-              <option value="newest">NEWEST</option>
-              <option value="price_asc">PRICE: LOW → HIGH</option>
-              <option value="price_desc">PRICE: HIGH → LOW</option>
-              <option value="name_asc">NAME A → Z</option>
-            </select>
+        <div className="lg:col-span-3">
+          <div className="backdrop-blur-xl bg-white/20 border border-white/30 rounded-3xl p-6 shadow-2xl mb-6">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <input
+                type="text"
+                placeholder="SEARCH PRODUCTS..."
+                value={filters.search}
+                onChange={(e) => updateParam('search', e.target.value)}
+                className="flex-1 bg-white/30 backdrop-blur-sm border-2 border-white/40 p-3 rounded-2xl font-mono text-sm text-gray-800 placeholder-gray-500 outline-none focus:border-black focus:bg-white/50 transition-all duration-300 sm:w-64"
+              />
+              <select
+                value={filters.sort}
+                onChange={(e) => updateParam('sort', e.target.value)}
+                className="bg-white/30 backdrop-blur-sm border-2 border-white/40 p-3 rounded-2xl font-mono text-sm text-gray-800 outline-none focus:border-black focus:bg-white/50 transition-all duration-300"
+              >
+                <option value="newest">NEWEST</option>
+                <option value="price_asc">PRICE: LOW → HIGH</option>
+                <option value="price_desc">PRICE: HIGH → LOW</option>
+                <option value="name_asc">NAME A → Z</option>
+              </select>
+            </div>
           </div>
 
           {/* Category banner */}
           {selectedCategory && (
-            <div className="mb-6">
+            <div className="backdrop-blur-xl bg-white/20 border border-white/30 rounded-3xl p-6 shadow-2xl mb-6">
               {selectedCategory.banner_image_url && (
-                <img src={selectedCategory.banner_image_url} alt={selectedCategory.name} className="mb-4 w-full object-cover" style={{ maxHeight: 200 }} />
+                <img src={selectedCategory.banner_image_url} alt={selectedCategory.name} className="mb-4 w-full object-cover rounded-2xl" style={{ maxHeight: 200 }} />
               )}
-              <h2 className="display-heading text-xl">{selectedCategory.name}</h2>
+              <h2 className="text-2xl font-bold text-black">{selectedCategory.name}</h2>
             </div>
           )}
 
           {isLoading ? (
-            <p className="font-mono text-xs text-muted-foreground">FETCHING DATA...</p>
+            <div className="backdrop-blur-xl bg-white/20 border border-white/30 rounded-3xl p-12 shadow-2xl text-center">
+              <p className="font-mono text-sm text-gray-600">FETCHING DATA...</p>
+            </div>
           ) : productsData?.products.length === 0 ? (
-            <p className="font-mono text-xs text-muted-foreground">NO PRODUCTS FOUND.</p>
+            <div className="backdrop-blur-xl bg-white/20 border border-white/30 rounded-3xl p-12 shadow-2xl text-center">
+              <p className="font-mono text-sm text-gray-600">NO PRODUCTS FOUND.</p>
+            </div>
           ) : (
             <>
-              <div className="grid grid-cols-2 gap-2 border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {productsData?.products.map((p) => (
-                  <div key={p.id} className="bg-background p-3">
+                  <div key={p.id} className="backdrop-blur-xl bg-white/20 border border-white/30 rounded-3xl p-6 shadow-2xl hover:shadow-3xl transition-all duration-300">
                     <Link to={`/product/${p.slug}`}>
-                      <div className="mb-4 aspect-square bg-muted flex items-center justify-center overflow-hidden">
+                      <div className="mb-6 aspect-square bg-gray-100 flex items-center justify-center overflow-hidden rounded-2xl">
                         {p.image_1 ? (
-                          <img src={p.image_1} alt={p.name} className="h-full w-full object-cover" />
+                          <img src={p.image_1} alt={p.name} className="h-full w-full object-cover hover:scale-105 transition-transform duration-300" />
                         ) : (
-                          <span className="font-mono text-xs text-muted-foreground">{p.name}</span>
+                          <span className="font-mono text-sm text-gray-500">{p.name}</span>
                         )}
                       </div>
                     </Link>
-                    <Link to={`/product/${p.slug}`} className="block text-sm font-medium hover:text-accent">{p.name}</Link>
-                    <div className="mt-1 flex items-center gap-2">
-                      <span className="data-text text-sm">${Number(p.price).toFixed(2)}</span>
+                    <Link to={`/product/${p.slug}`} className="block text-lg font-bold text-black hover:text-gray-700 transition-colors duration-300 mb-2">{p.name}</Link>
+                    <div className="flex items-center gap-2 mb-4">
+                      <span className="text-lg font-bold text-black">${Number(p.price).toFixed(2)}</span>
                       {p.compare_price && (
-                        <span className="data-text text-xs text-muted-foreground line-through">${Number(p.compare_price).toFixed(2)}</span>
+                        <span className="text-sm text-gray-500 line-through">${Number(p.compare_price).toFixed(2)}</span>
                       )}
                     </div>
-                    <div className="mt-4 flex gap-2">
+                    <div className="flex gap-2">
                       <button
                         onClick={() => addToCart.mutate(p.id)}
                         disabled={p.stock === 0 || addToCart.isPending}
-                        className="flex-1 bg-foreground py-2 text-xs font-bold uppercase tracking-widest text-background hover:bg-foreground/80 disabled:opacity-50"
+                        className="flex-1 bg-black text-white py-2 px-4 rounded-2xl font-mono text-xs font-bold uppercase tracking-widest hover:bg-gray-900 transition-all duration-300 disabled:opacity-50"
                       >
                         {p.stock === 0 ? 'OUT OF STOCK' : 'ADD TO CART'}
                       </button>
@@ -266,7 +284,7 @@ export default function ShopPage() {
                           });
                         }}
                         disabled={p.stock === 0 || addToCart.isPending}
-                        className="flex-1 bg-accent py-2 text-xs font-bold uppercase tracking-widest text-accent-foreground hover:bg-accent/80 disabled:opacity-50"
+                        className="flex-1 bg-gray-800 text-white py-2 px-4 rounded-2xl font-mono text-xs font-bold uppercase tracking-widest hover:bg-gray-700 transition-all duration-300 disabled:opacity-50"
                       >
                         {p.stock === 0 ? 'OUT OF STOCK' : 'BUY NOW'}
                       </button>
@@ -276,28 +294,56 @@ export default function ShopPage() {
               </div>
 
               {totalPages > 1 && (
-                <div className="mt-6 flex items-center justify-center gap-4">
-                  <button
-                    disabled={filters.page <= 1}
-                    onClick={() => updateParam('page', String(filters.page - 1))}
-                    className="font-mono text-xs font-bold disabled:opacity-30"
-                  >
-                    ← PREV
-                  </button>
-                  <span className="font-mono text-xs">PAGE {filters.page} / {totalPages}</span>
-                  <button
-                    disabled={filters.page >= totalPages}
-                    onClick={() => updateParam('page', String(filters.page + 1))}
-                    className="font-mono text-xs font-bold disabled:opacity-30"
-                  >
-                    NEXT →
-                  </button>
+                <div className="backdrop-blur-xl bg-white/20 border border-white/30 rounded-3xl p-6 shadow-2xl mt-6">
+                  <div className="flex items-center justify-center gap-4">
+                    <button
+                      disabled={filters.page <= 1}
+                      onClick={() => updateParam('page', String(filters.page - 1))}
+                      className="bg-black text-white px-6 py-2 rounded-2xl font-mono text-xs font-bold uppercase tracking-widest hover:bg-gray-900 transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed"
+                    >
+                      ← PREV
+                    </button>
+                    <span className="font-mono text-sm text-gray-600">PAGE {filters.page} / {totalPages}</span>
+                    <button
+                      disabled={filters.page >= totalPages}
+                      onClick={() => updateParam('page', String(filters.page + 1))}
+                      className="bg-black text-white px-6 py-2 rounded-2xl font-mono text-xs font-bold uppercase tracking-widest hover:bg-gray-900 transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed"
+                    >
+                      NEXT →
+                    </button>
+                  </div>
                 </div>
               )}
             </>
           )}
         </div>
       </div>
+
+      <style>{`
+        @keyframes blob {
+          0% {
+            transform: translate(0px, 0px) scale(1);
+          }
+          33% {
+            transform: translate(30px, -50px) scale(1.1);
+          }
+          66% {
+            transform: translate(-20px, 20px) scale(0.9);
+          }
+          100% {
+            transform: translate(0px, 0px) scale(1);
+          }
+        }
+        .animate-blob {
+          animation: blob 7s infinite;
+        }
+        .animation-delay-2000 {
+          animation-delay: 2s;
+        }
+        .animation-delay-4000 {
+          animation-delay: 4s;
+        }
+      `}</style>
     </div>
   );
 }
