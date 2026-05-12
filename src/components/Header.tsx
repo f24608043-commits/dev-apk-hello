@@ -204,31 +204,48 @@ export default function Header() {
           {/* Mobile Categories - directly in nav */}
           {parentCategories.map((category) => {
             const subcategories = getSubcategories(category.id);
-            return (
-              <div key={category.id}>
+            const hasSubcategories = subcategories && subcategories.length > 0;
+            
+            if (hasSubcategories) {
+              // Category with dropdown
+              return (
+                <div key={category.id}>
+                  <button
+                    onClick={() => setCategoryDropdownOpen(categoryDropdownOpen === category.id ? null : category.id)}
+                    className="block py-2 text-xs font-bold uppercase tracking-widest text-foreground hover:text-accent flex items-center"
+                  >
+                    {category.name} ▾
+                  </button>
+                  
+                  {categoryDropdownOpen === category.id && (
+                    <div className="pl-4 bg-muted">
+                      {subcategories.map((subcategory) => (
+                        <Link 
+                          key={subcategory.id}
+                          to={`/shop?category=${category.slug}&subcategory=${subcategory.slug}`} 
+                          onClick={() => setMenuOpen(false)} 
+                          className="block pl-4 py-1 text-xs uppercase tracking-widest text-muted-foreground hover:text-accent"
+                        >
+                          {subcategory.name}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            } else {
+              // Category without dropdown - direct link
+              return (
                 <Link 
+                  key={category.id}
                   to={`/shop?category=${category.slug}`} 
                   onClick={() => setMenuOpen(false)} 
                   className="block py-2 text-xs font-bold uppercase tracking-widest"
                 >
                   {category.name}
                 </Link>
-                {subcategories && subcategories.length > 0 && (
-                  <div>
-                    {subcategories.map((subcategory) => (
-                      <Link 
-                        key={subcategory.id}
-                        to={`/shop?category=${category.slug}&subcategory=${subcategory.slug}`} 
-                        onClick={() => setMenuOpen(false)} 
-                        className="block pl-4 py-1 text-xs uppercase tracking-widest text-muted-foreground"
-                      >
-                        {subcategory.name}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
-            );
+              );
+            }
           })}
           
           <Link to="/blog" onClick={() => setMenuOpen(false)} className="block py-2 text-xs font-bold uppercase tracking-widest">BLOG</Link>
