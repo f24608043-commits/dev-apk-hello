@@ -344,6 +344,7 @@ export default function ShopPage() {
           animation-delay: 4s;
         }
       `}</style>
+      </div>
     </div>
   );
 }
