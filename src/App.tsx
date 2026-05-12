@@ -15,6 +15,7 @@ import OrderConfirmationPage from "@/pages/OrderConfirmation";
 import BlogPage from "@/pages/Blog";
 import BlogPostPage from "@/pages/BlogPost";
 import AboutPage from "@/pages/About";
+import ContactPage from "@/pages/Contact";
 import AccountPage from "@/pages/Account";
 import OrderDetailPage from "@/pages/OrderDetail";
 import LoginPage from "@/pages/Login";
@@ -49,6 +50,7 @@ const App = () => (
               <Route path="/blog" element={<BlogPage />} />
               <Route path="/blog/:slug" element={<BlogPostPage />} />
               <Route path="/about" element={<AboutPage />} />
+              <Route path="/contact" element={<ContactPage />} />
               <Route path="/cart" element={<ProtectedRoute><CartPage /></ProtectedRoute>} />
               <Route path="/checkout" element={<ProtectedRoute><CheckoutPage /></ProtectedRoute>} />
               <Route path="/order-confirmation" element={<ProtectedRoute><OrderConfirmationPage /></ProtectedRoute>} />
