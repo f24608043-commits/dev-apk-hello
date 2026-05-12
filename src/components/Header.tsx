@@ -1,15 +1,13 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
-import { useTheme } from '@/context/ThemeContext';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useState } from 'react';
-import { SearchIcon, CartIcon, AccountIcon, SunIcon, MoonIcon } from '@/components/Icons';
+import { SearchIcon, CartIcon, AccountIcon } from '@/components/Icons';
 
 export default function Header() {
   const { user, profile, isAdmin, signOut } = useAuth();
-  const { theme, toggleTheme } = useTheme();
-  const navigate = useNavigate();
+    const navigate = useNavigate();
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const [menuOpen, setMenuOpen] = useState(false);
@@ -153,14 +151,7 @@ export default function Header() {
             </button>
           )}
 
-          <button
-            onClick={toggleTheme}
-            className="p-2 hover:text-accent"
-            title="Toggle theme"
-          >
-            {theme === 'light' ? <MoonIcon className="w-5 h-5" /> : <SunIcon className="w-5 h-5" />}
-          </button>
-
+          
           <Link to="/cart" className="relative p-2 hover:text-accent" title="Cart">
               <CartIcon className="w-5 h-5" />
             {(cartCount ?? 0) > 0 && (

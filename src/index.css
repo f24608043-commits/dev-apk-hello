@@ -40,40 +40,7 @@
     --font-mono: 'IBM Plex Mono', monospace;
   }
 
-  .theme-dark {
-    --background: 0 0% 0%;
-    --foreground: 255 255 255;
-    --card: 0 0% 10%;
-    --card-foreground: 255 255 255;
-    --popover: 0 0% 10%;
-    --popover-foreground: 255 255 255;
-    --primary: 255 255 255;
-    --primary-foreground: 0 0% 0%;
-    --secondary: 0 0% 20%;
-    --secondary-foreground: 255 255 255;
-    --muted: 0 0% 20%;
-    --muted-foreground: 255 255 255;
-    --accent: 255 255 255;
-    --accent-foreground: 0 0% 0%;
-    --destructive: 255 255 255;
-    --destructive-foreground: 0 0% 0%;
-    --border: 255 255 255;
-    --input: 0 0% 10%;
-    --ring: 255 255 255;
-    --sidebar-background: 0 0% 10%;
-    --sidebar-foreground: 255 255 255;
-    --sidebar-primary: 255 255 255;
-    --sidebar-primary-foreground: 0 0% 0%;
-    --sidebar-accent: 255 255 255;
-    --sidebar-accent-foreground: 0 0% 0%;
-    --sidebar-border: 255 255 255;
-    --sidebar-ring: 255 255 255;
-    --success: 255 255 255;
-    --success-foreground: 0 0% 0%;
-    --warning: 255 255 255;
-    --warning-foreground: 0 0% 0%;
-  }
-
+  
   
   * {
     @apply border-border;

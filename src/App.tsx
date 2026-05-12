@@ -3,7 +3,6 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/context/AuthContext";
 import { ProtectedRoute, AdminRoute } from "@/components/RouteGuards";
-import { ThemeProvider } from "@/context/ThemeContext";
 import StoreLayout from "@/components/StoreLayout";
 import AdminLayout from "@/components/AdminLayout";
 import HomePage from "@/pages/Home";
@@ -38,8 +37,7 @@ const queryClient = new QueryClient();
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <ThemeProvider>
-        <AuthProvider>
+      <AuthProvider>
           <BrowserRouter>
           <Routes>
             <Route path="/login" element={<LoginPage />} />
@@ -76,7 +74,6 @@ const App = () => (
           </Routes>
         </BrowserRouter>
       </AuthProvider>
-    </ThemeProvider>
   </TooltipProvider>
 </QueryClientProvider>
 );
