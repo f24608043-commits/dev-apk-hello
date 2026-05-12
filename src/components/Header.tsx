@@ -34,24 +34,16 @@ export default function Header() {
     refetchOnWindowFocus: true,
   });
 
-  // Static categories as specified by user
-  const categories = [
-    {
-      id: '123',
-      name: 'category 1',
-      slug: 'category-1',
-      subcategories: [
-        { id: 'sdf', name: 'sdf', slug: 'sdf' },
-        { id: 'hello', name: 'hello', slug: 'hello' }
-      ]
+  const { data: categories } = useQuery({
+    queryKey: ['categories'],
+    queryFn: async () => {
+      const { data } = await supabase.from('categories').select('*').order('name');
+      return data ?? [];
     },
-    {
-      id: '2312323',
-      name: 'category 1',
-      slug: 'category-1-entered',
-      subcategories: []
-    }
-  ];
+  });
+
+  const parentCategories = categories ?? [];
+  const getSubcategories = (parentId: string) => categories?.filter(c => c.parent_id === parentId) ?? [];
 
   function handleSearch(e: React.FormEvent) {
     e.preventDefault();
@@ -81,7 +73,7 @@ export default function Header() {
               className="text-xs font-bold uppercase tracking-widest text-foreground hover:text-accent flex items-center"
               style={{ cursor: 'pointer' }}
             >
-              {categories[0]?.name || 'CATEGORIES'} ▾
+              CATEGORIES ▾
             </button>
             
             {categoryDropdownOpen && (
@@ -91,31 +83,34 @@ export default function Header() {
                 onMouseEnter={() => setCategoryDropdownOpen(true)}
                 onMouseLeave={() => setCategoryDropdownOpen(false)}
               >
-                {categories.map((category) => (
-                  <div key={category.id}>
-                    <Link
-                      to={`/shop?category=${category.slug}`}
-                      className="block px-4 py-2 text-xs font-bold uppercase tracking-widest text-foreground hover:bg-muted hover:text-accent"
-                      style={{ cursor: 'pointer' }}
-                    >
-                      {category.name}
-                    </Link>
-                    {category.subcategories && category.subcategories.length > 0 && (
-                      <div className="pl-4 bg-muted">
-                        {category.subcategories.map((subcategory) => (
-                          <Link
-                            key={subcategory.id}
-                            to={`/shop?category=${category.slug}&subcategory=${subcategory.slug}`}
-                            className="block px-4 py-2 text-xs uppercase tracking-widest text-muted-foreground hover:text-accent"
-                            style={{ cursor: 'pointer' }}
-                          >
-                            {subcategory.name}
-                          </Link>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                ))}
+                {parentCategories.map((category) => {
+                  const subcategories = getSubcategories(category.id);
+                  return (
+                    <div key={category.id}>
+                      <Link
+                        to={`/shop?category=${category.slug}`}
+                        className="block px-4 py-2 text-xs font-bold uppercase tracking-widest text-foreground hover:bg-muted hover:text-accent"
+                        style={{ cursor: 'pointer' }}
+                      >
+                        {category.name}
+                      </Link>
+                      {subcategories && subcategories.length > 0 && (
+                        <div className="pl-4 bg-muted">
+                          {subcategories.map((subcategory) => (
+                            <Link
+                              key={subcategory.id}
+                              to={`/shop?category=${category.slug}&subcategory=${subcategory.slug}`}
+                              className="block px-4 py-2 text-xs uppercase tracking-widest text-muted-foreground hover:text-accent"
+                              style={{ cursor: 'pointer' }}
+                            >
+                              {subcategory.name}
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             )}
           </div>
@@ -195,33 +190,36 @@ export default function Header() {
           {/* Mobile Categories */}
           <div>
             <div className="py-2 text-xs font-bold uppercase tracking-widest">
-              {categories[0]?.name || 'CATEGORIES'}
+              CATEGORIES
             </div>
-            {categories.map((category) => (
-              <div key={category.id}>
-                <Link 
-                  to={`/shop?category=${category.slug}`} 
-                  onClick={() => setMenuOpen(false)} 
-                  className="block pl-4 py-2 text-xs font-bold uppercase tracking-widest"
-                >
-                  {category.name}
-                </Link>
-                {category.subcategories && category.subcategories.length > 0 && (
-                  <div>
-                    {category.subcategories.map((subcategory) => (
-                      <Link 
-                        key={subcategory.id}
-                        to={`/shop?category=${category.slug}&subcategory=${subcategory.slug}`} 
-                        onClick={() => setMenuOpen(false)} 
-                        className="block pl-8 py-1 text-xs uppercase tracking-widest text-muted-foreground"
-                      >
-                        {subcategory.name}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
+            {parentCategories.map((category) => {
+              const subcategories = getSubcategories(category.id);
+              return (
+                <div key={category.id}>
+                  <Link 
+                    to={`/shop?category=${category.slug}`} 
+                    onClick={() => setMenuOpen(false)} 
+                    className="block pl-4 py-2 text-xs font-bold uppercase tracking-widest"
+                  >
+                    {category.name}
+                  </Link>
+                  {subcategories && subcategories.length > 0 && (
+                    <div>
+                      {subcategories.map((subcategory) => (
+                        <Link 
+                          key={subcategory.id}
+                          to={`/shop?category=${category.slug}&subcategory=${subcategory.slug}`} 
+                          onClick={() => setMenuOpen(false)} 
+                          className="block pl-8 py-1 text-xs uppercase tracking-widest text-muted-foreground"
+                        >
+                          {subcategory.name}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
           
           <Link to="/blog" onClick={() => setMenuOpen(false)} className="block py-2 text-xs font-bold uppercase tracking-widest">BLOG</Link>
