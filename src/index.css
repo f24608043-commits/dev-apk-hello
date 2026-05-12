@@ -1,0 +1,125 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222 47% 11%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+    --primary: 222 47% 11%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222 47% 11%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+    --accent: 222 47% 11%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 222 47% 11%;
+    --radius: 2px;
+    --sidebar-background: 222 47% 11%;
+    --sidebar-foreground: 210 40% 96%;
+    --sidebar-primary: 222 47% 11%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 222 47% 15%;
+    --sidebar-accent-foreground: 210 40% 96%;
+    --sidebar-border: 222 47% 18%;
+    --sidebar-ring: 222 47% 11%;
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 100%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+    --font-sans: 'IBM Plex Sans', sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+  }
+
+  .theme-dark {
+    --background: 0 0% 0%;
+    --foreground: 255 255 255;
+    --card: 0 0% 10%;
+    --card-foreground: 255 255 255;
+    --popover: 0 0% 10%;
+    --popover-foreground: 255 255 255;
+    --primary: 255 255 255;
+    --primary-foreground: 0 0% 0%;
+    --secondary: 0 0% 20%;
+    --secondary-foreground: 255 255 255;
+    --muted: 0 0% 20%;
+    --muted-foreground: 255 255 255;
+    --accent: 255 255 255;
+    --accent-foreground: 0 0% 0%;
+    --destructive: 255 255 255;
+    --destructive-foreground: 0 0% 0%;
+    --border: 255 255 255;
+    --input: 0 0% 10%;
+    --ring: 255 255 255;
+    --sidebar-background: 0 0% 10%;
+    --sidebar-foreground: 255 255 255;
+    --sidebar-primary: 255 255 255;
+    --sidebar-primary-foreground: 0 0% 0%;
+    --sidebar-accent: 255 255 255;
+    --sidebar-accent-foreground: 0 0% 0%;
+    --sidebar-border: 255 255 255;
+    --sidebar-ring: 255 255 255;
+    --success: 255 255 255;
+    --success-foreground: 0 0% 0%;
+    --warning: 255 255 255;
+    --warning-foreground: 0 0% 0%;
+  }
+
+  
+  * {
+    @apply border-border;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-feature-settings: 'kern' 1;
+  }
+
+  /* No transitions anywhere */
+  *, *::before, *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+@layer components {
+  .data-text {
+    @apply font-mono tabular-nums;
+  }
+  .display-heading {
+    @apply font-semibold tracking-tight text-foreground;
+  }
+  .label-text {
+    @apply text-xs font-bold uppercase tracking-widest text-muted-foreground;
+  }
+  .status-pending {
+    @apply text-warning font-mono text-xs font-bold uppercase;
+  }
+  .status-processing {
+    @apply text-accent font-mono text-xs font-bold uppercase;
+  }
+  .status-shipped {
+    @apply text-accent font-mono text-xs font-bold uppercase;
+  }
+  .status-delivered {
+    @apply text-success font-mono text-xs font-bold uppercase;
+  }
+  .status-cancelled {
+    @apply text-destructive font-mono text-xs font-bold uppercase;
+  }
+  .nav-dropdown-parent:hover .nav-dropdown-menu {
+    display: block;
+  }
+}
