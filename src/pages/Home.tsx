@@ -50,33 +50,36 @@ function FeaturedProducts() {
   if (!products?.length) return null;
 
   return (
-    <section className="border-t-2 border-foreground py-12">
-      <div className="mx-auto max-w-7xl px-6">
-        <h2 className="display-heading mb-8 text-xl">FEATURED PRODUCTS</h2>
-        <div className="grid grid-cols-2 gap-2 border border-border bg-border sm:grid-cols-2 lg:grid-cols-4">
+    <section className="py-16">
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold text-black mb-4">Featured Products</h2>
+          <p className="text-gray-600 max-w-2xl mx-auto">Discover our most popular herbal remedies</p>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {products.map((p) => (
-            <div key={p.id} className="bg-background p-3">
+            <div key={p.id} className="backdrop-blur-xl bg-white/20 border border-white/30 rounded-3xl p-6 shadow-2xl hover:shadow-3xl transition-all duration-300">
               <Link to={`/product/${p.slug}`}>
-                <div className="mb-4 aspect-square bg-muted flex items-center justify-center overflow-hidden">
+                <div className="mb-6 aspect-square bg-gray-100 flex items-center justify-center overflow-hidden rounded-2xl">
                   {p.image_1 ? (
-                    <img src={p.image_1} alt={p.name} className="h-full w-full object-cover" />
+                    <img src={p.image_1} alt={p.name} className="h-full w-full object-cover hover:scale-105 transition-transform duration-300" />
                   ) : (
-                    <span className="font-mono text-xs text-muted-foreground">{p.name}</span>
+                    <span className="font-mono text-sm text-gray-500">{p.name}</span>
                   )}
                 </div>
               </Link>
-              <Link to={`/product/${p.slug}`} className="block text-sm font-medium hover:text-accent">{p.name}</Link>
-              <div className="mt-1 flex items-center gap-2">
-                <span className="data-text text-sm">${Number(p.price).toFixed(2)}</span>
+              <Link to={`/product/${p.slug}`} className="block text-lg font-bold text-black hover:text-gray-700 transition-colors duration-300 mb-2">{p.name}</Link>
+              <div className="flex items-center gap-2 mb-4">
+                <span className="text-lg font-bold text-black">${Number(p.price).toFixed(2)}</span>
                 {p.compare_price && (
-                  <span className="data-text text-xs text-muted-foreground line-through">${Number(p.compare_price).toFixed(2)}</span>
+                  <span className="text-sm text-gray-500 line-through">${Number(p.compare_price).toFixed(2)}</span>
                 )}
               </div>
-              <div className="mt-4 flex gap-2">
+              <div className="flex gap-2">
                 <button
                   onClick={() => addToCart.mutate(p.id)}
                   disabled={p.stock === 0 || addToCart.isPending}
-                  className="flex-1 bg-foreground py-2 text-xs font-bold uppercase tracking-widest text-background hover:bg-foreground/80 disabled:opacity-50"
+                  className="flex-1 bg-black text-white py-2 px-4 rounded-2xl font-mono text-xs font-bold uppercase tracking-widest hover:bg-gray-900 transition-all duration-300 disabled:opacity-50"
                 >
                   {p.stock === 0 ? 'OUT OF STOCK' : 'ADD TO CART'}
                 </button>
@@ -89,7 +92,7 @@ function FeaturedProducts() {
                     });
                   }}
                   disabled={p.stock === 0 || addToCart.isPending}
-                  className="flex-1 bg-accent py-2 text-xs font-bold uppercase tracking-widest text-accent-foreground hover:bg-accent/80 disabled:opacity-50"
+                  className="flex-1 bg-gray-800 text-white py-2 px-4 rounded-2xl font-mono text-xs font-bold uppercase tracking-widest hover:bg-gray-700 transition-all duration-300 disabled:opacity-50"
                 >
                   {p.stock === 0 ? 'OUT OF STOCK' : 'BUY NOW'}
                 </button>
@@ -136,25 +139,34 @@ function ActiveDeals() {
   }
 
   return (
-    <section className="border-t-2 border-foreground py-12">
-      <div className="mx-auto max-w-7xl px-6">
-        <h2 className="display-heading mb-8 text-xl">ACTIVE DEALS</h2>
-        <div className="grid grid-cols-1 gap-px border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
+    <section className="py-16">
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold text-black mb-4">Active Deals</h2>
+          <p className="text-gray-600 max-w-2xl mx-auto">Limited time offers on our best products</p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {deals.map((deal) => {
             const product = deal.products as any;
             if (!product) return null;
             const discounted = Number(product.price) * (1 - Number(deal.discount_percent) / 100);
             return (
-              <div key={deal.id} className="bg-background p-4">
-                <Link to={`/product/${product.slug}`} className="text-sm font-medium hover:text-accent">{product.name}</Link>
-                <div className="mt-2 flex items-center gap-2">
-                  <span className="data-text text-sm">${discounted.toFixed(2)}</span>
-                  <span className="data-text text-xs text-muted-foreground line-through">${Number(product.price).toFixed(2)}</span>
-                  <span className="bg-destructive px-1 text-[10px] font-bold text-destructive-foreground">-{Number(deal.discount_percent)}%</span>
+              <div key={deal.id} className="backdrop-blur-xl bg-white/20 border border-white/30 rounded-3xl p-6 shadow-2xl hover:shadow-3xl transition-all duration-300">
+                <Link to={`/product/${product.slug}`} className="block text-lg font-bold text-black hover:text-gray-700 transition-colors duration-300 mb-4">{product.name}</Link>
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="text-xl font-bold text-black">${discounted.toFixed(2)}</span>
+                  <span className="text-sm text-gray-500 line-through">${Number(product.price).toFixed(2)}</span>
+                  <span className="bg-red-500 text-white px-2 py-1 text-xs font-bold rounded-full">-{Number(deal.discount_percent)}%</span>
                 </div>
-                <div className="mt-2 font-mono text-xs text-muted-foreground">
-                  ENDS IN: {countdown(deal.end_date)}
+                <div className="font-mono text-sm text-gray-600 mb-4">
+                  ⏰ ENDS IN: {countdown(deal.end_date)}
                 </div>
+                <Link 
+                  to={`/product/${product.slug}`}
+                  className="block w-full bg-black text-white py-2 px-4 rounded-2xl font-mono text-xs font-bold uppercase tracking-widest hover:bg-gray-900 transition-all duration-300 text-center"
+                >
+                  VIEW DEAL
+                </Link>
               </div>
             );
           })}
@@ -179,13 +191,25 @@ function CategoriesSection() {
   const parentCategories = categories.filter(c => !c.parent_id);
 
   return (
-    <section className="border-t-2 border-foreground py-12">
-      <div className="mx-auto max-w-7xl px-6">
-        <h2 className="display-heading mb-8 text-xl">CATEGORIES</h2>
-        <div className="grid grid-cols-2 gap-px border border-border bg-border sm:grid-cols-3 lg:grid-cols-4">
+    <section className="py-16">
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold text-black mb-4">Categories</h2>
+          <p className="text-gray-600 max-w-2xl mx-auto">Browse our herbal remedies by category</p>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {parentCategories.map((cat) => (
-            <Link key={cat.id} to={`/shop?category=${cat.slug}`} className="bg-background p-6 text-center hover:bg-muted">
-              <span className="text-sm font-bold uppercase tracking-widest">{cat.name}</span>
+            <Link 
+              key={cat.id} 
+              to={`/shop?category=${cat.slug}`} 
+              className="backdrop-blur-xl bg-white/20 border border-white/30 rounded-3xl p-8 text-center shadow-2xl hover:shadow-3xl transition-all duration-300 group"
+            >
+              <div className="w-16 h-16 bg-black/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-black/30 transition-colors duration-300">
+                <svg className="w-8 h-8 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                </svg>
+              </div>
+              <span className="text-sm font-bold uppercase tracking-widest text-black group-hover:text-gray-700 transition-colors duration-300">{cat.name}</span>
             </Link>
           ))}
         </div>
@@ -216,32 +240,41 @@ function NewsletterSection() {
   }
 
   return (
-    <section className="border-t-2 border-foreground py-12">
-      <div className="mx-auto max-w-7xl px-6 text-center">
-        <h2 className="display-heading mb-4 text-xl">NEWSLETTER</h2>
-        <p className="mb-6 font-mono text-xs text-muted-foreground">SUBSCRIBE FOR UPDATES AND OFFERS.</p>
-        {status === 'success' ? (
-          <p className="font-mono text-xs text-success">SUBSCRIBED_SUCCESSFULLY.</p>
-        ) : (
-          <form onSubmit={handleSubscribe} className="mx-auto flex max-w-md">
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="EMAIL ADDRESS"
-              required
-              className="flex-1 border-2 border-foreground bg-background p-2 font-mono text-xs outline-none"
-            />
-            <button
-              type="submit"
-              disabled={status === 'loading'}
-              className="bg-foreground px-6 py-2 text-xs font-bold uppercase tracking-widest text-background hover:bg-foreground/80 disabled:opacity-50"
-            >
-              SUBSCRIBE
-            </button>
-          </form>
-        )}
-        {status === 'error' && <p className="mt-2 font-mono text-xs text-destructive">{errorMsg}</p>}
+    <section className="py-16">
+      <div className="container mx-auto px-4">
+        <div className="backdrop-blur-xl bg-white/20 border border-white/30 rounded-3xl p-12 shadow-2xl max-w-2xl mx-auto text-center">
+          <div className="w-20 h-20 bg-black/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-6">
+            <svg className="w-10 h-10 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+          </div>
+          <h2 className="text-3xl md:text-4xl font-bold text-black mb-4">Newsletter</h2>
+          <p className="text-gray-600 mb-8 max-w-md mx-auto">Subscribe for updates and exclusive offers on our herbal remedies</p>
+          {status === 'success' ? (
+            <div className="backdrop-blur-xl bg-green-100/50 border border-green-200/30 rounded-2xl p-6">
+              <p className="font-mono text-sm text-green-800 font-bold">✓ SUBSCRIBED SUCCESSFULLY</p>
+            </div>
+          ) : (
+            <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="EMAIL ADDRESS"
+                required
+                className="flex-1 bg-white/30 backdrop-blur-sm border-2 border-white/40 p-3 rounded-2xl font-mono text-sm text-gray-800 placeholder-gray-500 outline-none focus:border-black focus:bg-white/50 transition-all duration-300"
+              />
+              <button
+                type="submit"
+                disabled={status === 'loading'}
+                className="bg-black text-white px-8 py-3 rounded-2xl font-mono text-sm font-bold uppercase tracking-widest hover:bg-gray-900 transition-all duration-300 shadow-lg disabled:opacity-50"
+              >
+                {status === 'loading' ? 'SUBSCRIBING...' : 'SUBSCRIBE'}
+              </button>
+            </form>
+          )}
+          {status === 'error' && <p className="mt-4 font-mono text-sm text-red-600">{errorMsg}</p>}
+        </div>
       </div>
     </section>
   );
@@ -252,7 +285,7 @@ export default function HomePage() {
     queryKey: ['settings', 'hero_heading'],
     queryFn: async () => {
       const { data } = await supabase.from('settings').select('value').eq('key', 'hero_heading').single();
-      return data?.value ?? 'PROVISIONS FOR THE MODERN STACK.';
+      return data?.value ?? 'Deva Pk Herbal Medicine';
     },
   });
 
@@ -260,26 +293,65 @@ export default function HomePage() {
     queryKey: ['settings', 'hero_subheading'],
     queryFn: async () => {
       const { data } = await supabase.from('settings').select('value').eq('key', 'hero_subheading').single();
-      return data?.value ?? 'QUALITY GOODS. ZERO COMPROMISE.';
+      return data?.value ?? '100% Natural Herbal Remedies for Your Health';
     },
   });
 
   return (
-    <div>
-      <section className="flex min-h-[60vh] flex-col items-center justify-center px-6 py-24">
-        <h1 className="display-heading mb-4 text-center text-4xl md:text-5xl">{heroHeading}</h1>
-        <p className="mb-8 font-mono text-sm text-muted-foreground">{heroSubheading}</p>
-        <Link
-          to="/shop"
-          className="bg-foreground px-8 py-3 text-xs font-bold uppercase tracking-widest text-background hover:bg-foreground/80"
-        >
-          SHOP NOW
-        </Link>
-      </section>
-      <FeaturedProducts />
-      <ActiveDeals />
-      <CategoriesSection />
-      <NewsletterSection />
+    <div className="min-h-screen bg-gray-50 relative overflow-hidden">
+      {/* Background decorative elements */}
+      <div className="absolute top-20 left-20 w-72 h-72 bg-gray-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
+      <div className="absolute top-40 right-20 w-72 h-72 bg-gray-400 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
+      <div className="absolute -bottom-8 left-40 w-72 h-72 bg-gray-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-4000"></div>
+
+      <div className="relative z-10">
+        {/* Hero Section */}
+        <section className="flex min-h-[80vh] flex-col items-center justify-center px-6 py-24">
+          <div className="backdrop-blur-xl bg-white/20 border border-white/30 rounded-3xl p-12 shadow-2xl max-w-4xl mx-auto text-center">
+            <h1 className="text-4xl md:text-6xl font-bold text-black mb-6">{heroHeading}</h1>
+            <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">{heroSubheading}</p>
+            <Link
+              to="/shop"
+              className="inline-block bg-black text-white px-8 py-4 rounded-2xl font-mono text-sm font-bold uppercase tracking-widest hover:bg-gray-900 transition-all duration-300 shadow-lg transform hover:scale-105"
+            >
+              SHOP NOW
+            </Link>
+          </div>
+        </section>
+
+        <div className="container mx-auto px-4 py-16">
+          <FeaturedProducts />
+          <ActiveDeals />
+          <CategoriesSection />
+          <NewsletterSection />
+        </div>
+      </div>
+
+      <style>{`
+        @keyframes blob {
+          0% {
+            transform: translate(0px, 0px) scale(1);
+          }
+          33% {
+            transform: translate(30px, -50px) scale(1.1);
+          }
+          66% {
+            transform: translate(-20px, 20px) scale(0.9);
+          }
+          100% {
+            transform: translate(0px, 0px) scale(1);
+          }
+        }
+        .animate-blob {
+          animation: blob 7s infinite;
+        }
+        .animation-delay-2000 {
+          animation-delay: 2s;
+        }
+        .animation-delay-4000 {
+          animation-delay: 4s;
+        }
+      `}</style>
     </div>
   );
 }
