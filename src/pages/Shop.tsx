@@ -248,11 +248,11 @@ export default function ShopPage() {
             </div>
           ) : (
             <>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 {productsData?.products.map((p) => (
-                  <div key={p.id} className="backdrop-blur-xl bg-white/20 border border-white/30 rounded-3xl p-6 shadow-2xl hover:shadow-3xl transition-all duration-300">
+                  <div key={p.id} className="backdrop-blur-xl bg-white/20 border border-white/30 rounded-3xl p-4 shadow-2xl hover:shadow-3xl transition-all duration-300">
                     <Link to={`/product/${p.slug}`}>
-                      <div className="mb-6 aspect-square bg-gray-100 flex items-center justify-center overflow-hidden rounded-2xl">
+                      <div className="mb-4 aspect-square bg-gray-100 flex items-center justify-center overflow-hidden rounded-2xl">
                         {p.image_1 ? (
                           <img src={p.image_1} alt={p.name} className="h-full w-full object-cover hover:scale-105 transition-transform duration-300" />
                         ) : (
@@ -260,9 +260,9 @@ export default function ShopPage() {
                         )}
                       </div>
                     </Link>
-                    <Link to={`/product/${p.slug}`} className="block text-lg font-bold text-black hover:text-gray-700 transition-colors duration-300 mb-2">{p.name}</Link>
-                    <div className="flex items-center gap-2 mb-4">
-                      <span className="text-lg font-bold text-black">${Number(p.price).toFixed(2)}</span>
+                    <Link to={`/product/${p.slug}`} className="block text-base font-bold text-black hover:text-gray-700 transition-colors duration-300 mb-2">{p.name}</Link>
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className="text-base font-bold text-black">${Number(p.price).toFixed(2)}</span>
                       {p.compare_price && (
                         <span className="text-sm text-gray-500 line-through">${Number(p.compare_price).toFixed(2)}</span>
                       )}
