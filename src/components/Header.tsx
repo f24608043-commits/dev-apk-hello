@@ -13,7 +13,7 @@ export default function Header() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const [menuOpen, setMenuOpen] = useState(false);
-  const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
+  const [categoryDropdownOpen, setCategoryDropdownOpen] = useState<string | null>(null);
 
   const { data: storeName } = useQuery({
     queryKey: ['settings', 'store_name'],
@@ -65,55 +65,69 @@ export default function Header() {
           <Link to="/" className="text-xs font-bold uppercase tracking-widest text-foreground hover:text-accent">HOME</Link>
           <Link to="/shop" className="text-xs font-bold uppercase tracking-widest text-foreground hover:text-accent">SHOP</Link>
           
-          {/* Categories Dropdown */}
-          <div className="relative">
-            <button
-              onMouseEnter={() => setCategoryDropdownOpen(true)}
-              onMouseLeave={() => setCategoryDropdownOpen(false)}
-              className="text-xs font-bold uppercase tracking-widest text-foreground hover:text-accent flex items-center"
-              style={{ cursor: 'pointer' }}
-            >
-              CATEGORIES ▾
-            </button>
+          {/* Dynamic Categories in Top Bar */}
+          {parentCategories.map((category) => {
+            const subcategories = getSubcategories(category.id);
+            const hasSubcategories = subcategories && subcategories.length > 0;
             
-            {categoryDropdownOpen && (
-              <div 
-                className="absolute top-full left-0 bg-background border border-foreground shadow-lg z-50"
-                style={{ minWidth: '200px' }}
-                onMouseEnter={() => setCategoryDropdownOpen(true)}
-                onMouseLeave={() => setCategoryDropdownOpen(false)}
-              >
-                {parentCategories.map((category) => {
-                  const subcategories = getSubcategories(category.id);
-                  return (
-                    <div key={category.id}>
+            if (hasSubcategories) {
+              // Category with dropdown
+              return (
+                <div key={category.id} className="relative">
+                  <button
+                    onMouseEnter={() => setCategoryDropdownOpen(category.id)}
+                    onMouseLeave={() => setCategoryDropdownOpen(null)}
+                    className="text-xs font-bold uppercase tracking-widest text-foreground hover:text-accent flex items-center"
+                    style={{ cursor: 'pointer' }}
+                  >
+                    {category.name} ▾
+                  </button>
+                  
+                  {categoryDropdownOpen === category.id && (
+                    <div 
+                      className="absolute top-full left-0 bg-background border border-foreground shadow-lg z-50"
+                      style={{ minWidth: '200px' }}
+                      onMouseEnter={() => setCategoryDropdownOpen(category.id)}
+                      onMouseLeave={() => setCategoryDropdownOpen(null)}
+                    >
                       <Link
                         to={`/shop?category=${category.slug}`}
                         className="block px-4 py-2 text-xs font-bold uppercase tracking-widest text-foreground hover:bg-muted hover:text-accent"
                         style={{ cursor: 'pointer' }}
+                        onClick={() => setCategoryDropdownOpen(null)}
                       >
                         {category.name}
                       </Link>
-                      {subcategories && subcategories.length > 0 && (
-                        <div className="pl-4 bg-muted">
-                          {subcategories.map((subcategory) => (
-                            <Link
-                              key={subcategory.id}
-                              to={`/shop?category=${category.slug}&subcategory=${subcategory.slug}`}
-                              className="block px-4 py-2 text-xs uppercase tracking-widest text-muted-foreground hover:text-accent"
-                              style={{ cursor: 'pointer' }}
-                            >
-                              {subcategory.name}
-                            </Link>
-                          ))}
-                        </div>
-                      )}
+                      <div className="pl-4 bg-muted">
+                        {subcategories.map((subcategory) => (
+                          <Link
+                            key={subcategory.id}
+                            to={`/shop?category=${category.slug}&subcategory=${subcategory.slug}`}
+                            className="block px-4 py-2 text-xs uppercase tracking-widest text-muted-foreground hover:text-accent"
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => setCategoryDropdownOpen(null)}
+                          >
+                            {subcategory.name}
+                          </Link>
+                        ))}
+                      </div>
                     </div>
-                  );
-                })}
-              </div>
-            )}
-          </div>
+                  )}
+                </div>
+              );
+            } else {
+              // Category without dropdown - direct link
+              return (
+                <Link 
+                  key={category.id}
+                  to={`/shop?category=${category.slug}`} 
+                  className="text-xs font-bold uppercase tracking-widest text-foreground hover:text-accent"
+                >
+                  {category.name}
+                </Link>
+              );
+            }
+          })}
 
           <Link to="/blog" className="text-xs font-bold uppercase tracking-widest text-foreground hover:text-accent">BLOG</Link>
           <Link to="/about" className="text-xs font-bold uppercase tracking-widest text-foreground hover:text-accent">ABOUT</Link>
@@ -187,40 +201,35 @@ export default function Header() {
           <Link to="/" onClick={() => setMenuOpen(false)} className="block py-2 text-xs font-bold uppercase tracking-widest">HOME</Link>
           <Link to="/shop" onClick={() => setMenuOpen(false)} className="block py-2 text-xs font-bold uppercase tracking-widest">SHOP</Link>
           
-          {/* Mobile Categories */}
-          <div>
-            <div className="py-2 text-xs font-bold uppercase tracking-widest">
-              CATEGORIES
-            </div>
-            {parentCategories.map((category) => {
-              const subcategories = getSubcategories(category.id);
-              return (
-                <div key={category.id}>
-                  <Link 
-                    to={`/shop?category=${category.slug}`} 
-                    onClick={() => setMenuOpen(false)} 
-                    className="block pl-4 py-2 text-xs font-bold uppercase tracking-widest"
-                  >
-                    {category.name}
-                  </Link>
-                  {subcategories && subcategories.length > 0 && (
-                    <div>
-                      {subcategories.map((subcategory) => (
-                        <Link 
-                          key={subcategory.id}
-                          to={`/shop?category=${category.slug}&subcategory=${subcategory.slug}`} 
-                          onClick={() => setMenuOpen(false)} 
-                          className="block pl-8 py-1 text-xs uppercase tracking-widest text-muted-foreground"
-                        >
-                          {subcategory.name}
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
+          {/* Mobile Categories - directly in nav */}
+          {parentCategories.map((category) => {
+            const subcategories = getSubcategories(category.id);
+            return (
+              <div key={category.id}>
+                <Link 
+                  to={`/shop?category=${category.slug}`} 
+                  onClick={() => setMenuOpen(false)} 
+                  className="block py-2 text-xs font-bold uppercase tracking-widest"
+                >
+                  {category.name}
+                </Link>
+                {subcategories && subcategories.length > 0 && (
+                  <div>
+                    {subcategories.map((subcategory) => (
+                      <Link 
+                        key={subcategory.id}
+                        to={`/shop?category=${category.slug}&subcategory=${subcategory.slug}`} 
+                        onClick={() => setMenuOpen(false)} 
+                        className="block pl-4 py-1 text-xs uppercase tracking-widest text-muted-foreground"
+                      >
+                        {subcategory.name}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          })}
           
           <Link to="/blog" onClick={() => setMenuOpen(false)} className="block py-2 text-xs font-bold uppercase tracking-widest">BLOG</Link>
           <Link to="/about" onClick={() => setMenuOpen(false)} className="block py-2 text-xs font-bold uppercase tracking-widest">ABOUT</Link>
