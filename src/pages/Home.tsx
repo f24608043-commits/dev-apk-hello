@@ -4,6 +4,8 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import Hero from '@/components/hero/Hero';
+import { Banner } from '@/components/hero/HeroSlider';
 
 function FeaturedProducts() {
   const { user } = useAuth();
@@ -281,21 +283,26 @@ function NewsletterSection() {
 }
 
 export default function HomePage() {
-  const { data: heroHeading } = useQuery({
-    queryKey: ['settings', 'hero_heading'],
-    queryFn: async () => {
-      const { data } = await supabase.from('settings').select('value').eq('key', 'hero_heading').single();
-      return data?.value ?? 'Deva Pk Herbal Medicine';
+  const banners: Banner[] = [
+    {
+      id: '1',
+      image: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=1920&q=80',
+      title: 'PROVISIONS FOR THE MODERN STACK.',
+      subtitle: 'Quality herbal products. Zero compromise.',
     },
-  });
-
-  const { data: heroSubheading } = useQuery({
-    queryKey: ['settings', 'hero_subheading'],
-    queryFn: async () => {
-      const { data } = await supabase.from('settings').select('value').eq('key', 'hero_subheading').single();
-      return data?.value ?? '100% Natural Herbal Remedies for Your Health';
+    {
+      id: '2',
+      image: 'https://images.unsplash.com/photo-1556227702-d1e4e7b5c232?w=1920&q=80',
+      title: 'PROVISIONS FOR THE MODERN STACK.',
+      subtitle: 'Quality herbal products. Zero compromise.',
     },
-  });
+    {
+      id: '3',
+      image: 'https://images.unsplash.com/photo-1598440041070-c4d8837a9f85?w=1920&q=80',
+      title: 'PROVISIONS FOR THE MODERN STACK.',
+      subtitle: 'Quality herbal products. Zero compromise.',
+    },
+  ];
 
   return (
     <div className="min-h-screen bg-gray-50 relative overflow-hidden">
@@ -306,18 +313,7 @@ export default function HomePage() {
 
       <div className="relative z-10">
         {/* Hero Section */}
-        <section className="flex min-h-[80vh] flex-col items-center justify-center px-6 py-24">
-          <div className="backdrop-blur-xl bg-white/20 border border-white/30 rounded-3xl p-12 shadow-2xl max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-6xl font-bold text-black mb-6">{heroHeading}</h1>
-            <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">{heroSubheading}</p>
-            <Link
-              to="/shop"
-              className="inline-block bg-black text-white px-8 py-4 rounded-2xl font-mono text-sm font-bold uppercase tracking-widest hover:bg-gray-900 transition-all duration-300 shadow-lg transform hover:scale-105"
-            >
-              SHOP NOW
-            </Link>
-          </div>
-        </section>
+        <Hero banners={banners} />
 
         <div className="container mx-auto px-4 py-16">
           <FeaturedProducts />
