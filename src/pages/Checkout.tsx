@@ -15,8 +15,8 @@ export default function CheckoutPage() {
     address_line_1: '',
     address_line_2: '',
     city: '',
-    state: '',
-    postal_code: '',
+    phone_number: '',
+    additional_information: '',
     country: '',
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -55,8 +55,7 @@ export default function CheckoutPage() {
     if (!form.full_name.trim()) errs.full_name = 'REQUIRED';
     if (!form.address_line_1.trim()) errs.address_line_1 = 'REQUIRED';
     if (!form.city.trim()) errs.city = 'REQUIRED';
-    if (!form.state.trim()) errs.state = 'REQUIRED';
-    if (!form.postal_code.trim()) errs.postal_code = 'REQUIRED';
+    if (!form.phone_number.trim()) errs.phone_number = 'REQUIRED';
     if (!form.country.trim()) errs.country = 'REQUIRED';
     setErrors(errs);
     return Object.keys(errs).length === 0;
@@ -92,8 +91,8 @@ export default function CheckoutPage() {
     { key: 'address_line_1', label: 'ADDRESS LINE 1' },
     { key: 'address_line_2', label: 'ADDRESS LINE 2 (OPTIONAL)' },
     { key: 'city', label: 'CITY' },
-    { key: 'state', label: 'STATE' },
-    { key: 'postal_code', label: 'POSTAL CODE' },
+    { key: 'phone_number', label: 'PHONE NUMBER' },
+    { key: 'additional_information', label: 'ADDITIONAL INFORMATION (OPTIONAL)' },
     { key: 'country', label: 'COUNTRY' },
   ];
 
