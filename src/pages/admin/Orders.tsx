@@ -90,6 +90,9 @@ export default function AdminOrders() {
                         <div className="space-y-1 font-mono text-xs">
                           <p><span className="text-muted-foreground">Name:</span> {(o.profiles as any)?.full_name ?? '—'}</p>
                           <p><span className="text-muted-foreground">Email:</span> {(o.profiles as any)?.email ?? '—'}</p>
+                          {(o.shipping_address as any)?.phone_number && (
+                            <p><span className="text-muted-foreground">Phone:</span> {(o.shipping_address as any)?.phone_number}</p>
+                          )}
                         </div>
                       </div>
 
@@ -97,7 +100,17 @@ export default function AdminOrders() {
                       {o.shipping_address && (
                         <div>
                           <h4 className="font-bold text-sm mb-2">SHIPPING ADDRESS</h4>
-                          <p className="font-mono text-xs text-muted-foreground whitespace-pre-wrap">{typeof o.shipping_address === 'string' ? o.shipping_address : JSON.stringify(o.shipping_address)}</p>
+                          <div className="space-y-1 font-mono text-xs text-muted-foreground">
+                            <p>{(o.shipping_address as any)?.address_line_1 ?? '—'}</p>
+                            {(o.shipping_address as any)?.address_line_2 && (
+                              <p>{(o.shipping_address as any)?.address_line_2}</p>
+                            )}
+                            <p>{(o.shipping_address as any)?.city ?? '—'}</p>
+                            <p>{(o.shipping_address as any)?.country ?? '—'}</p>
+                            {(o.shipping_address as any)?.additional_information && (
+                              <p className="mt-2"><span className="font-bold">Additional Info:</span> {(o.shipping_address as any)?.additional_information}</p>
+                            )}
+                          </div>
                         </div>
                       )}
 
