@@ -30,6 +30,22 @@ export default function AdminOrders() {
     setExpandedOrder(expandedOrder === orderId ? null : orderId);
   };
 
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'pending':
+        return 'bg-red-100';
+      case 'processing':
+      case 'shipped':
+        return 'bg-white';
+      case 'delivered':
+        return 'bg-green-100';
+      case 'cancelled':
+        return 'bg-blue-100';
+      default:
+        return 'bg-white';
+    }
+  };
+
   return (
     <div>
       <table className="w-full">
@@ -40,17 +56,20 @@ export default function AdminOrders() {
             <th className="label-text pb-2 text-left">DATE</th>
             <th className="label-text pb-2 text-left">STATUS</th>
             <th className="label-text pb-2 text-right">TOTAL</th>
-            <th className="label-text pb-2 text-left">ACTIONS</th>
           </tr>
         </thead>
         <tbody>
           {orders?.map(o => (
             <>
-              <tr key={o.id} className="border-b border-border">
+              <tr 
+                key={o.id} 
+                className={`border-b border-border cursor-pointer hover:opacity-80 ${getStatusColor(o.status ?? 'pending')}`}
+                onClick={() => toggleExpand(o.id)}
+              >
                 <td className="py-2 font-mono text-xs">{o.id.slice(0,8)}</td>
                 <td className="py-2 font-mono text-xs">{(o.profiles as any)?.full_name ?? '—'}</td>
                 <td className="py-2 font-mono text-xs">{new Date(o.created_at).toLocaleDateString()}</td>
-                <td className="py-2">
+                <td className="py-2" onClick={(e) => e.stopPropagation()}>
                   <select 
                     value={o.status ?? 'pending'} 
                     onChange={(e) => updateStatus.mutate({ id: o.id, status: e.target.value })} 
@@ -60,18 +79,10 @@ export default function AdminOrders() {
                   </select>
                 </td>
                 <td className="py-2 text-right data-text text-sm">${Number(o.total).toFixed(2)}</td>
-                <td className="py-2">
-                  <button 
-                    onClick={() => toggleExpand(o.id)}
-                    className="font-mono text-xs text-muted-foreground hover:text-foreground"
-                  >
-                    {expandedOrder === o.id ? '▼' : '▶'}
-                  </button>
-                </td>
               </tr>
               {expandedOrder === o.id && (
                 <tr key={`${o.id}-details`}>
-                  <td colSpan={6} className="p-4 bg-muted/30">
+                  <td colSpan={5} className="p-4 bg-muted/30">
                     <div className="space-y-4">
                       {/* Customer Details */}
                       <div>
