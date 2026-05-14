@@ -255,21 +255,21 @@ export default function HomePage() {
   const banners: Banner[] = [
     {
       id: '1',
-      image: '/images/herobanner1.png',
-      title: 'PROVISIONS FOR THE MODERN STACK.',
-      subtitle: 'Quality herbal products. Zero compromise.',
+      image: 'https://lh3.googleusercontent.com/pw/AP1GczOhwkUAMxu5IsvpAQoq7s1nMwtvQMovRx5JcA4omfHZkgdAOtfW-LShlm4kI381WQtVCTATK4PsLdeg6Ebz66Ftc_dAT6N8VAN5OjQc8pBOdlySf90SbK2zT76AjIBwZgv2-9sMzWGKHSpp4_jKjwg=w1631-h667-s-no-gm',
+      title: 'Badshah Di Hatti',
+      subtitle: 'Authentic Herbal Solutions for Generations',
     },
     {
       id: '2',
-      image: 'https://images.unsplash.com/photo-1556227702-d1e4e7b5c232?w=1920&q=80',
-      title: 'PROVISIONS FOR THE MODERN STACK.',
-      subtitle: 'Quality herbal products. Zero compromise.',
+      image: 'https://lh3.googleusercontent.com/pw/AP1GczMd3XoTegfD7jcRcR8_Eh3bsw8WXCJAu4jYcsMOgNb5dloBVjZbFhyBgLEdLIisCge51VYvpy2YKeEJ_GB8MS-H6XWRqOyY7RI75VrNIEZKTgaXb5onSUWMqsmK2AQLZXPAq8TdBsKGOC9XYUtqMSM=w1162-h467-s-no-gm',
+      title: '100% Natural Treatments',
+      subtitle: 'Preserving the Heritage of Tibb',
     },
     {
       id: '3',
-      image: 'https://images.unsplash.com/photo-1598440041070-c4d8837a9f85?w=1920&q=80',
-      title: 'PROVISIONS FOR THE MODERN STACK.',
-      subtitle: 'Quality herbal products. Zero compromise.',
+      image: 'https://lh3.googleusercontent.com/pw/AP1GczMcRfiM3k2uao8llvnzOygGpYPpM8eQgAPbulvbV0ClQzbyKtYuaf88KvHA9_P_BMX0DNOHM5g0Gq8Hi2y888VvUQNxKyrL6QpqlrB-KRFRZFp2tcpH1JAETzonNFe47Q-ZE6iuH67L9oLNMB3Pmw0=w1376-h768-s-no-gm?authuser=0',
+      title: 'Premium Herbal Care',
+      subtitle: 'Expert Remedies for Men, Women & Children',
     },
   ];
 
