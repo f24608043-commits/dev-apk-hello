@@ -43,7 +43,7 @@ export default function HeroSlider({ banners, autoPlay = true, interval = 3000, 
 
   return (
     <div
-      className="relative w-full h-[75vh] overflow-hidden rounded-2xl shadow-2xl"
+      className="relative w-full h-[30vh] md:h-[50vh] lg:h-[60vh] overflow-hidden rounded-2xl shadow-2xl"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >

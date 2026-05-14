@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion';
 import HeroSlider, { Banner } from './HeroSlider';
-import HeroContent from './HeroContent';
 
 interface HeroProps {
   banners: Banner[];
@@ -41,14 +40,7 @@ export default function Hero({ banners }: HeroProps) {
 
       {/* Main Hero Slider */}
       <div className="relative z-10">
-        <HeroSlider banners={banners} autoPlay={true} interval={3000}>
-          {(currentIndex) => (
-            <HeroContent
-              title={banners[currentIndex].title}
-              subtitle={banners[currentIndex].subtitle}
-            />
-          )}
-        </HeroSlider>
+        <HeroSlider banners={banners} autoPlay={true} interval={3000} />
       </div>
 
       {/* Decorative Gradient Blobs */}

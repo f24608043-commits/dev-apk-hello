@@ -251,6 +251,8 @@ function NewsletterSection() {
   );
 }
 
+import MainHero from '@/components/hero/MainHero';
+
 export default function HomePage() {
   const banners: Banner[] = [
     {
@@ -281,8 +283,13 @@ export default function HomePage() {
       <div className="absolute -bottom-8 left-40 w-72 h-72 bg-gray-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-4000"></div>
 
       <div className="relative z-10">
-        {/* Hero Section */}
-        <Hero banners={banners} />
+        {/* Main Profile Hero */}
+        <MainHero />
+
+        {/* Banner Slider Hero */}
+        <div className="container mx-auto px-4 mb-16">
+          <Hero banners={banners} />
+        </div>
 
         <div className="container mx-auto px-4 py-16">
           <FeaturedProducts />
