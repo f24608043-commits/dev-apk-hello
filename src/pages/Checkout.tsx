@@ -127,7 +127,7 @@ export default function CheckoutPage() {
               return (
                 <div key={item.id} className="flex justify-between text-sm">
                   <span>{product.name} × {item.quantity}</span>
-                  <span className="data-text">${(Number(product.price) * item.quantity).toFixed(2)}</span>
+                  <span className="data-text">Rs. {(Number(product.price) * item.quantity).toFixed(2)}</span>
                 </div>
               );
             })}
@@ -135,17 +135,17 @@ export default function CheckoutPage() {
           <div className="mt-4 space-y-2 border-t border-border pt-4 text-sm">
             <div className="flex justify-between">
               <span>SUBTOTAL</span>
-              <span className="data-text">${subtotal.toFixed(2)}</span>
+              <span className="data-text">Rs. {subtotal.toFixed(2)}</span>
             </div>
             {discount > 0 && (
               <div className="flex justify-between text-success">
                 <span>DISCOUNT</span>
-                <span className="data-text">-${discount.toFixed(2)}</span>
+                <span className="data-text">-Rs. {discount.toFixed(2)}</span>
               </div>
             )}
             <div className="flex justify-between font-bold">
               <span>TOTAL</span>
-              <span className="data-text">${total.toFixed(2)}</span>
+              <span className="data-text">Rs. {total.toFixed(2)}</span>
             </div>
           </div>
 

@@ -54,11 +54,7 @@
     font-feature-settings: 'kern' 1;
   }
 
-  /* No transitions anywhere */
-  *, *::before, *::after {
-    transition: none !important;
-    animation: none !important;
-  }
+  /* Transitions enabled */
 }
 
 @layer components {

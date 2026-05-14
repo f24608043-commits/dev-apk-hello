@@ -52,18 +52,18 @@ export default function OrderConfirmationPage() {
               <tr key={item.id} className="border-b border-border">
                 <td className="py-2 text-sm">{item.products?.name ?? 'Unknown'}</td>
                 <td className="py-2 text-right data-text text-sm">{item.quantity}</td>
-                <td className="py-2 text-right data-text text-sm">${Number(item.price_at_purchase).toFixed(2)}</td>
+                <td className="py-2 text-right data-text text-sm">Rs. {Number(item.price_at_purchase).toFixed(2)}</td>
               </tr>
             ))}
           </tbody>
         </table>
 
         <div className="space-y-1 text-sm">
-          <div className="flex justify-between"><span>SUBTOTAL</span><span className="data-text">${Number(order.subtotal).toFixed(2)}</span></div>
+          <div className="flex justify-between"><span>SUBTOTAL</span><span className="data-text">Rs. {Number(order.subtotal).toFixed(2)}</span></div>
           {Number(order.discount) > 0 && (
-            <div className="flex justify-between text-success"><span>DISCOUNT</span><span className="data-text">-${Number(order.discount).toFixed(2)}</span></div>
+            <div className="flex justify-between text-success"><span>DISCOUNT</span><span className="data-text">-Rs. {Number(order.discount).toFixed(2)}</span></div>
           )}
-          <div className="flex justify-between font-bold"><span>TOTAL</span><span className="data-text">${Number(order.total).toFixed(2)}</span></div>
+          <div className="flex justify-between font-bold"><span>TOTAL</span><span className="data-text">Rs. {Number(order.total).toFixed(2)}</span></div>
         </div>
 
         <div className="mt-6 border-t border-border pt-4">

@@ -157,8 +157,8 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h3 className="font-bold text-black mb-1">Phone / WhatsApp</h3>
-                    <p className="text-gray-600">0300-2500026</p>
-                    <p className="text-sm text-gray-500">Mon - Sat, 9am - 8pm</p>
+                    <p className="text-gray-600">+92 345 700 0088</p>
+                    <p className="text-gray-600">+92 300 250 0026</p>
                   </div>
                 </div>
 
@@ -171,7 +171,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h3 className="font-bold text-black mb-1">Location</h3>
-                    <p className="text-gray-600">Rawalpindi, Punjab, Pakistan</p>
+                    <p className="text-gray-600">Hakim Muhammad Amjal Khan Rd, Near Lal Haveli, Bohar Bazar, Rawalpindi.</p>
                   </div>
                 </div>
 
@@ -182,8 +182,9 @@ export default function ContactPage() {
                     </svg>
                   </div>
                   <div>
-                    <h3 className="font-bold text-black mb-1">Email</h3>
-                    <p className="text-gray-600">info@devapk.com</p>
+                    <h3 className="font-bold text-black mb-1">Email / Web</h3>
+                    <p className="text-gray-600">bdhdeva@yahoo.com</p>
+                    <p className="text-gray-600">www.devapk.com</p>
                   </div>
                 </div>
 
@@ -206,16 +207,8 @@ export default function ContactPage() {
               <h3 className="text-2xl font-bold text-black mb-4">Business Hours</h3>
               <div className="space-y-3">
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Monday - Friday</span>
-                  <span className="font-semibold text-black">9:00 AM - 8:00 PM</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Saturday</span>
-                  <span className="font-semibold text-black">9:00 AM - 6:00 PM</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Sunday</span>
-                  <span className="font-semibold text-black">Closed</span>
+                  <span className="text-gray-600">Monday - Sunday</span>
+                  <span className="font-semibold text-black">10:00 AM - 09:00 PM (PST)</span>
                 </div>
               </div>
             </div>

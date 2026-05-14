@@ -135,20 +135,24 @@ export default function ProductDetailPage() {
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
         {/* Images */}
         <div>
-          <div className="aspect-square bg-muted flex items-center justify-center overflow-hidden">
+          <div className="w-full h-[500px] bg-gray-100 rounded-2xl overflow-hidden flex items-center justify-center">
             {mainImage ? (
-              <img src={mainImage} alt={product.name} className="h-full w-full object-cover" />
+              <img src={mainImage} alt={product.name} className="w-full h-full object-contain object-center transition-opacity duration-300" />
             ) : (
               <span className="font-mono text-sm text-muted-foreground">{product.name}</span>
             )}
           </div>
-          {allImages.length > 0 && (
-            <div className="mt-2 flex gap-2">
+          {allImages.length > 1 && (
+            <div className="mt-4 flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
               {allImages.map((img, i) => (
                 <button
                   key={i}
                   onClick={() => setSelectedImage(img)}
-                  className={`h-16 w-16 border-2 overflow-hidden ${(selectedImage ?? allImages[0]) === img ? 'border-foreground' : 'border-border'}`}
+                  className={`relative h-20 w-20 flex-shrink-0 rounded-xl overflow-hidden border-2 transition-all duration-300 ${
+                    (selectedImage ?? allImages[0]) === img 
+                      ? 'border-gray-900 shadow-md ring-2 ring-gray-900/5' 
+                      : 'border-transparent hover:border-gray-200'
+                  }`}
                 >
                   <img src={img} alt="" className="h-full w-full object-cover" />
                 </button>
@@ -166,9 +170,9 @@ export default function ProductDetailPage() {
           </div>
 
           <div className="mt-4 flex items-center gap-3">
-            <span className="data-text text-2xl">${Number(product.price).toFixed(2)}</span>
+            <span className="data-text text-2xl">Rs. {Number(product.price).toFixed(2)}</span>
             {product.compare_price && (
-              <span className="data-text text-lg text-muted-foreground line-through">${Number(product.compare_price).toFixed(2)}</span>
+              <span className="data-text text-lg text-muted-foreground line-through">Rs. {Number(product.compare_price).toFixed(2)}</span>
             )}
           </div>
 

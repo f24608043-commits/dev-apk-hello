@@ -127,18 +127,15 @@ export default function CartPage() {
                         <Link to={`/product/${product.slug}`} className="text-sm font-medium hover:text-accent">{product.name}</Link>
                       </div>
                     </td>
-                    <td className="py-4 text-right data-text text-sm">${Number(product.price).toFixed(2)}</td>
+                    <td className="py-4 text-right data-text text-sm">Rs. {Number(product.price).toFixed(2)}</td>
                     <td className="py-4 text-center">
-                      <input
-                        type="number"
-                        min={1}
-                        max={product.stock}
-                        value={item.quantity}
-                        onChange={(e) => updateQty.mutate({ id: item.id, quantity: parseInt(e.target.value) || 1 })}
-                        className="w-16 border-2 border-border bg-background p-1 text-center font-mono text-xs outline-none focus:border-foreground"
-                      />
+                      <div className="mx-auto flex w-24 items-center border-2 border-border">
+                        <button onClick={() => updateQty.mutate({ id: item.id, quantity: Math.max(1, item.quantity - 1) })} className="p-2 hover:bg-muted">-</button>
+                        <span className="flex-1 text-center font-mono text-xs">{item.quantity}</span>
+                        <button onClick={() => updateQty.mutate({ id: item.id, quantity: item.quantity + 1 })} className="p-2 hover:bg-muted">+</button>
+                      </div>
                     </td>
-                    <td className="py-4 text-right data-text text-sm">${(Number(product.price) * item.quantity).toFixed(2)}</td>
+                    <td className="py-4 text-right data-text text-sm">Rs. {(Number(product.price) * item.quantity).toFixed(2)}</td>
                     <td className="py-4 text-right">
                       <button
                         onClick={() => { if (confirm('Remove this item?')) removeItem.mutate(item.id); }}
@@ -159,17 +156,17 @@ export default function CartPage() {
           <div className="space-y-2 text-sm">
             <div className="flex justify-between">
               <span>SUBTOTAL</span>
-              <span className="data-text">${subtotal.toFixed(2)}</span>
+              <span className="data-text">Rs. {subtotal.toFixed(2)}</span>
             </div>
             {discount > 0 && (
               <div className="flex justify-between text-success">
                 <span>DISCOUNT</span>
-                <span className="data-text">-${discount.toFixed(2)}</span>
+                <span className="data-text">-Rs. {discount.toFixed(2)}</span>
               </div>
             )}
-            <div className="flex justify-between border-t border-border pt-2 font-bold">
+            <div className="flex justify-between border-t-2 border-foreground pt-4 text-lg font-bold">
               <span>TOTAL</span>
-              <span className="data-text">${total.toFixed(2)}</span>
+              <span className="data-text">Rs. {total.toFixed(2)}</span>
             </div>
           </div>
 
@@ -188,7 +185,7 @@ export default function CartPage() {
               </button>
             </div>
             {couponError && <p className="mt-1 font-mono text-xs text-destructive">{couponError}</p>}
-            {couponResult && <p className="mt-1 font-mono text-xs text-success">COUPON_APPLIED: -${couponResult.discount_amount.toFixed(2)}</p>}
+            {couponResult && <p className="mt-1 font-mono text-xs text-success">COUPON_APPLIED: -Rs. {couponResult.discount_amount.toFixed(2)}</p>}
           </div>
 
           <button

@@ -30,7 +30,9 @@ export default function ProductGrid({
     large: 5,
   },
 }: ProductGridProps) {
-  const gridCols = `grid grid-cols-${columns.mobile} md:grid-cols-${columns.tablet} lg:grid-cols-${columns.desktop} xl:grid-cols-${columns.large}`;
+  const gridCols = columns.mobile === 2 
+    ? "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5" 
+    : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5";
 
   if (!products.length) {
     return (
@@ -53,6 +55,7 @@ export default function ProductGrid({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: index * 0.05 }}
+          className="h-full"
         >
           <ProductCard
             product={product}

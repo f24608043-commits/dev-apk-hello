@@ -7,6 +7,8 @@ import { useState, useEffect } from 'react';
 import Hero from '@/components/hero/Hero';
 import { Banner } from '@/components/hero/HeroSlider';
 
+import ProductCard from '@/components/products/ProductCard';
+
 function FeaturedProducts() {
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -58,47 +60,13 @@ function FeaturedProducts() {
           <h2 className="text-3xl md:text-4xl font-bold text-black mb-4">Featured Products</h2>
           <p className="text-gray-600 max-w-2xl mx-auto">Discover our most popular herbal remedies</p>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
           {products.map((p) => (
-            <div key={p.id} className="backdrop-blur-xl bg-white/20 border border-white/30 rounded-3xl p-6 shadow-2xl hover:shadow-3xl transition-all duration-300">
-              <Link to={`/product/${p.slug}`}>
-                <div className="mb-6 aspect-square bg-gray-100 flex items-center justify-center overflow-hidden rounded-2xl">
-                  {p.image_1 ? (
-                    <img src={p.image_1} alt={p.name} className="h-full w-full object-cover hover:scale-105 transition-transform duration-300" />
-                  ) : (
-                    <span className="font-mono text-sm text-gray-500">{p.name}</span>
-                  )}
-                </div>
-              </Link>
-              <Link to={`/product/${p.slug}`} className="block text-lg font-bold text-black hover:text-gray-700 transition-colors duration-300 mb-2">{p.name}</Link>
-              <div className="flex items-center gap-2 mb-4">
-                <span className="text-lg font-bold text-black">${Number(p.price).toFixed(2)}</span>
-                {p.compare_price && (
-                  <span className="text-sm text-gray-500 line-through">${Number(p.compare_price).toFixed(2)}</span>
-                )}
-              </div>
-              <div className="flex gap-2">
-                <button
-                  onClick={() => addToCart.mutate(p.id)}
-                  disabled={p.stock === 0 || addToCart.isPending}
-                  className="flex-1 bg-black text-white py-2 px-4 rounded-2xl font-mono text-xs font-bold uppercase tracking-widest hover:bg-gray-900 transition-all duration-300 disabled:opacity-50"
-                >
-                  {p.stock === 0 ? 'OUT OF STOCK' : 'ADD TO CART'}
-                </button>
-                <button
-                  onClick={() => {
-                    addToCart.mutate(p.id, {
-                      onSuccess: () => {
-                        navigate('/checkout');
-                      }
-                    });
-                  }}
-                  disabled={p.stock === 0 || addToCart.isPending}
-                  className="flex-1 bg-gray-800 text-white py-2 px-4 rounded-2xl font-mono text-xs font-bold uppercase tracking-widest hover:bg-gray-700 transition-all duration-300 disabled:opacity-50"
-                >
-                  {p.stock === 0 ? 'OUT OF STOCK' : 'BUY NOW'}
-                </button>
-              </div>
+            <div key={p.id} className="h-full">
+              <ProductCard 
+                product={p as any} 
+                onAddToCart={(id) => addToCart.mutate(id)} 
+              />
             </div>
           ))}
         </div>
@@ -156,8 +124,8 @@ function ActiveDeals() {
               <div key={deal.id} className="backdrop-blur-xl bg-white/20 border border-white/30 rounded-3xl p-6 shadow-2xl hover:shadow-3xl transition-all duration-300">
                 <Link to={`/product/${product.slug}`} className="block text-lg font-bold text-black hover:text-gray-700 transition-colors duration-300 mb-4">{product.name}</Link>
                 <div className="flex items-center gap-3 mb-4">
-                  <span className="text-xl font-bold text-black">${discounted.toFixed(2)}</span>
-                  <span className="text-sm text-gray-500 line-through">${Number(product.price).toFixed(2)}</span>
+                  <span className="text-xl font-bold text-black">Rs. {discounted.toFixed(2)}</span>
+                  <span className="text-sm text-gray-500 line-through">Rs. {Number(product.price).toFixed(2)}</span>
                   <span className="bg-red-500 text-white px-2 py-1 text-xs font-bold rounded-full">-{Number(deal.discount_percent)}%</span>
                 </div>
                 <div className="font-mono text-sm text-gray-600 mb-4">
@@ -286,7 +254,7 @@ export default function HomePage() {
   const banners: Banner[] = [
     {
       id: '1',
-      image: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=1920&q=80',
+      image: '/images/herobanner1.png',
       title: 'PROVISIONS FOR THE MODERN STACK.',
       subtitle: 'Quality herbal products. Zero compromise.',
     },
