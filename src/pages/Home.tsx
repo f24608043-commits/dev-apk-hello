@@ -8,6 +8,7 @@ import Hero from '@/components/hero/Hero';
 import { Banner } from '@/components/hero/HeroSlider';
 
 import ProductCard from '@/components/products/ProductCard';
+import SocialSection from '@/components/SocialSection';
 
 function FeaturedProducts() {
   const { user } = useAuth();
@@ -121,7 +122,7 @@ function ActiveDeals() {
             if (!product) return null;
             const discounted = Number(product.price) * (1 - Number(deal.discount_percent) / 100);
             return (
-              <div key={deal.id} className="backdrop-blur-xl bg-white/20 border border-white/30 rounded-3xl p-6 shadow-2xl hover:shadow-3xl transition-all duration-300">
+              <div key={deal.id} className="backdrop-blur-xl bg-[#DCEDC8]/60 border border-white/30 rounded-3xl p-6 shadow-2xl hover:shadow-3xl transition-all duration-300">
                 <Link to={`/product/${product.slug}`} className="block text-lg font-bold text-black hover:text-gray-700 transition-colors duration-300 mb-4">{product.name}</Link>
                 <div className="flex items-center gap-3 mb-4">
                   <span className="text-xl font-bold text-black">Rs. {discounted.toFixed(2)}</span>
@@ -172,7 +173,7 @@ function CategoriesSection() {
             <Link 
               key={cat.id} 
               to={`/shop?category=${cat.slug}`} 
-              className="backdrop-blur-xl bg-white/20 border border-white/30 rounded-3xl p-8 text-center shadow-2xl hover:shadow-3xl transition-all duration-300 group"
+              className="backdrop-blur-xl bg-[#DCEDC8]/60 border border-white/30 rounded-3xl p-8 text-center shadow-2xl hover:shadow-3xl transition-all duration-300 group"
             >
               <div className="w-16 h-16 bg-black/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-black/30 transition-colors duration-300">
                 <svg className="w-8 h-8 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -212,7 +213,7 @@ function NewsletterSection() {
   return (
     <section className="py-16">
       <div className="container mx-auto px-4">
-        <div className="backdrop-blur-xl bg-white/20 border border-white/30 rounded-3xl p-12 shadow-2xl max-w-2xl mx-auto text-center">
+        <div className="backdrop-blur-xl bg-[#DCEDC8]/60 border border-white/30 rounded-3xl p-12 shadow-2xl max-w-2xl mx-auto text-center">
           <div className="w-20 h-20 bg-black/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-6">
             <svg className="w-10 h-10 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -273,7 +274,7 @@ export default function HomePage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 relative overflow-hidden">
+    <div className="min-h-screen relative overflow-hidden">
       {/* Background decorative elements */}
       <div className="absolute top-20 left-20 w-72 h-72 bg-gray-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
       <div className="absolute top-40 right-20 w-72 h-72 bg-gray-400 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
@@ -288,6 +289,7 @@ export default function HomePage() {
           <ActiveDeals />
           <CategoriesSection />
           <NewsletterSection />
+          <SocialSection />
         </div>
       </div>
 

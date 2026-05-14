@@ -53,7 +53,7 @@ export default function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-50 border-b-2 border-foreground bg-background">
+    <header className="sticky top-0 z-50 border-b-2 border-foreground bg-[#E8F5E9]">
       <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-6">
         <Link to="/" className="font-mono text-sm font-bold uppercase tracking-widest text-foreground">
           {storeName}

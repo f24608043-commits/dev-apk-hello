@@ -18,14 +18,14 @@ export default function BlogPage() {
 
   if (isLoading) return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-      <div className="backdrop-blur-xl bg-white/20 border border-white/30 rounded-3xl p-8 shadow-2xl">
+      <div className="backdrop-blur-xl bg-[#DCEDC8]/60 border border-white/30 rounded-3xl p-8 shadow-2xl">
         <div className="font-mono text-sm text-gray-600">FETCHING DATA...</div>
       </div>
     </div>
   );
 
   return (
-    <div className="min-h-screen bg-gray-50 relative overflow-hidden">
+    <div className="min-h-screen relative overflow-hidden">
       {/* Background decorative elements */}
       <div className="absolute top-20 left-20 w-72 h-72 bg-gray-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
       <div className="absolute top-40 right-20 w-72 h-72 bg-gray-400 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
@@ -43,13 +43,13 @@ export default function BlogPage() {
         </div>
 
         {posts?.length === 0 ? (
-          <div className="backdrop-blur-xl bg-white/20 border border-white/30 rounded-3xl p-12 shadow-2xl max-w-2xl mx-auto text-center">
+          <div className="backdrop-blur-xl bg-[#DCEDC8]/60 border border-white/30 rounded-3xl p-12 shadow-2xl max-w-2xl mx-auto text-center">
             <div className="font-mono text-lg text-gray-600">NO POSTS YET.</div>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
             {posts?.map((post) => (
-              <div key={post.id} className="backdrop-blur-xl bg-white/20 border border-white/30 rounded-3xl p-6 shadow-2xl hover:shadow-3xl transition-all duration-300">
+              <div key={post.id} className="backdrop-blur-xl bg-[#DCEDC8]/60 border border-white/30 rounded-3xl p-6 shadow-2xl hover:shadow-3xl transition-all duration-300">
                 {post.cover_image_url ? (
                   <div className="mb-6 aspect-video bg-gray-100 overflow-hidden rounded-2xl">
                     <img 

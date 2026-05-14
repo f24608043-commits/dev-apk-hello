@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom';
+import SocialSection from '@/components/SocialSection';
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-gray-50 relative overflow-hidden">
+    <div className="min-h-screen relative overflow-hidden">
       {/* Background decorative elements */}
       <div className="absolute top-20 left-20 w-72 h-72 bg-gray-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
       <div className="absolute top-40 right-20 w-72 h-72 bg-gray-400 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
@@ -27,7 +28,7 @@ export default function AboutPage() {
           
           {/* Left Column */}
           <div className="space-y-8">
-            <div className="backdrop-blur-xl bg-white/20 border border-white/30 rounded-3xl p-8 shadow-2xl">
+            <div className="backdrop-blur-xl bg-[#DCEDC8]/60 border border-white/30 rounded-3xl p-8 shadow-2xl">
               <h3 className="text-2xl font-bold text-black mb-6">Our Story</h3>
               <p className="text-gray-600 mb-6 leading-relaxed">
                 At Deva Pk Medicine in Rawalpindi you experience an easy & hassle free online shopping in Pakistan. 
@@ -40,7 +41,7 @@ export default function AboutPage() {
               </p>
             </div>
 
-            <div className="backdrop-blur-xl bg-white/20 border border-white/30 rounded-3xl p-8 shadow-2xl">
+            <div className="backdrop-blur-xl bg-[#DCEDC8]/60 border border-white/30 rounded-3xl p-8 shadow-2xl">
               <h3 className="text-2xl font-bold text-black mb-6">What is Herbalism?</h3>
               <p className="text-gray-600 mb-4 leading-relaxed">
                 Herbalism (also herbal medicine or phytotherapy) is the study of botany and use of plants intended 
@@ -57,7 +58,7 @@ export default function AboutPage() {
 
           {/* Right Column */}
           <div className="space-y-8">
-            <div className="backdrop-blur-xl bg-white/20 border border-white/30 rounded-3xl p-8 shadow-2xl">
+            <div className="backdrop-blur-xl bg-[#DCEDC8]/60 border border-white/30 rounded-3xl p-8 shadow-2xl">
               <h3 className="text-2xl font-bold text-black mb-6">Contact Information</h3>
               <div className="space-y-6">
                 <div className="flex items-start space-x-4">
@@ -69,6 +70,7 @@ export default function AboutPage() {
                   <div>
                     <h4 className="font-bold text-black mb-1">Phone</h4>
                     <p className="text-gray-600">+92 345 700 0088</p>
+                    <p className="text-gray-600">+92 300 250 0026</p>
                   </div>
                 </div>
 
@@ -81,7 +83,7 @@ export default function AboutPage() {
                   </div>
                   <div>
                     <h4 className="font-bold text-black mb-1">Location</h4>
-                    <p className="text-gray-600">Rawalpindi, Punjab, Pakistan</p>
+                    <p className="text-gray-600">Hakim Muhammad Amjal Khan Rd, Near Lal Haveli, Bohar Bazar, Rawalpindi.</p>
                   </div>
                 </div>
 
@@ -92,8 +94,9 @@ export default function AboutPage() {
                     </svg>
                   </div>
                   <div>
-                    <h4 className="font-bold text-black mb-1">Email</h4>
-                    <p className="text-gray-600">info@devapk.com</p>
+                    <h4 className="font-bold text-black mb-1">Email / Web</h4>
+                    <p className="text-gray-600">bdhdeva@yahoo.com</p>
+                    <p className="text-gray-600">www.devapk.com</p>
                   </div>
                 </div>
 
@@ -111,7 +114,7 @@ export default function AboutPage() {
               </div>
             </div>
 
-            <div className="backdrop-blur-xl bg-white/20 border border-white/30 rounded-3xl p-8 shadow-2xl">
+            <div className="backdrop-blur-xl bg-[#DCEDC8]/60 border border-white/30 rounded-3xl p-8 shadow-2xl">
               <h3 className="text-2xl font-bold text-black mb-6">Our Mission</h3>
               <p className="text-gray-600 leading-relaxed">
                 We believe DevaPk Health to be a special company of people proud of their past and excited about 
@@ -131,6 +134,8 @@ export default function AboutPage() {
             Back to Home
           </Link>
         </div>
+
+        <SocialSection />
       </div>
 
       <style>{`

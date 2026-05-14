@@ -120,7 +120,7 @@ export default function ShopPage() {
   const totalPages = Math.ceil((productsData?.total ?? 0) / perPage);
 
   return (
-    <div className="min-h-screen bg-gray-50 relative overflow-hidden">
+    <div className="min-h-screen relative overflow-hidden">
       {/* Background decorative elements */}
       <div className="absolute top-20 left-20 w-72 h-72 bg-gray-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
       <div className="absolute top-40 right-20 w-72 h-72 bg-gray-400 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
@@ -136,7 +136,7 @@ export default function ShopPage() {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Sidebar */}
           <aside className="lg:col-span-1 space-y-6">
-            <div className="backdrop-blur-xl bg-white/20 border border-white/30 rounded-3xl p-6 shadow-2xl">
+            <div className="backdrop-blur-xl bg-[#DCEDC8]/60 border border-white/30 rounded-3xl p-6 shadow-2xl">
               <h3 className="text-lg font-bold text-black mb-4">Categories</h3>
               {parentCategories.map((parent) => {
                 const subs = getSubcategories(parent.id);
@@ -167,7 +167,7 @@ export default function ShopPage() {
               })}
             </div>
 
-            <div className="backdrop-blur-xl bg-white/20 border border-white/30 rounded-3xl p-6 shadow-2xl">
+            <div className="backdrop-blur-xl bg-[#DCEDC8]/60 border border-white/30 rounded-3xl p-6 shadow-2xl">
               <h3 className="text-lg font-bold text-black mb-4">Brands</h3>
               <div className="space-y-2 max-h-48 overflow-y-auto">
                 {brands?.map((b) => (
@@ -184,7 +184,7 @@ export default function ShopPage() {
               </div>
             </div>
 
-            <div className="backdrop-blur-xl bg-white/20 border border-white/30 rounded-3xl p-6 shadow-2xl">
+            <div className="backdrop-blur-xl bg-[#DCEDC8]/60 border border-white/30 rounded-3xl p-6 shadow-2xl">
               <h3 className="text-lg font-bold text-black mb-4">Price Range</h3>
               <div className="flex gap-3">
                 <input
@@ -207,7 +207,7 @@ export default function ShopPage() {
 
         {/* Main content */}
         <div className="lg:col-span-3">
-          <div className="backdrop-blur-xl bg-white/20 border border-white/30 rounded-3xl p-6 shadow-2xl mb-6">
+          <div className="backdrop-blur-xl bg-[#DCEDC8]/60 border border-white/30 rounded-3xl p-6 shadow-2xl mb-6">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <input
                 type="text"
@@ -231,7 +231,7 @@ export default function ShopPage() {
 
           {/* Category banner */}
           {selectedCategory && (
-            <div className="backdrop-blur-xl bg-white/20 border border-white/30 rounded-3xl p-6 shadow-2xl mb-6">
+            <div className="backdrop-blur-xl bg-[#DCEDC8]/60 border border-white/30 rounded-3xl p-6 shadow-2xl mb-6">
               {selectedCategory.banner_image_url && (
                 <img src={selectedCategory.banner_image_url} alt={selectedCategory.name} className="mb-4 w-full object-cover rounded-2xl" style={{ maxHeight: 200 }} />
               )}

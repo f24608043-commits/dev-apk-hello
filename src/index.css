@@ -4,25 +4,25 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222 47% 11%;
+    --background: 120 40% 98%;
+    --foreground: 0 0% 7%;
     --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    --card-foreground: 0 0% 7%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
-    --primary: 222 47% 11%;
+    --popover-foreground: 0 0% 7%;
+    --primary: 0 0% 7%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 222 47% 11%;
-    --muted: 210 40% 96%;
-    --muted-foreground: 215 16% 47%;
-    --accent: 222 47% 11%;
-    --accent-foreground: 0 0% 100%;
+    --secondary: 100 30% 90%;
+    --secondary-foreground: 0 0% 7%;
+    --muted: 100 20% 95%;
+    --muted-foreground: 0 0% 15%;
+    --accent: 100 40% 85%;
+    --accent-foreground: 0 0% 7%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 222 47% 11%;
+    --border: 100 20% 80%;
+    --input: 100 20% 80%;
+    --ring: 0 0% 7%;
     --radius: 2px;
     --sidebar-background: 222 47% 11%;
     --sidebar-foreground: 210 40% 96%;
@@ -52,6 +52,11 @@
   body {
     @apply bg-background text-foreground font-sans antialiased;
     font-feature-settings: 'kern' 1;
+    background-image: url('https://i1-e.pinimg.com/736x/39/9b/45/399b45486690424370e420fc14dec309.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
   }
 
   /* Transitions enabled */

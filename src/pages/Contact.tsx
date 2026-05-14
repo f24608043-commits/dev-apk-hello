@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import SocialSection from '@/components/SocialSection';
 
 interface ContactFormData {
   name: string;
@@ -97,8 +98,8 @@ export default function ContactPage() {
 
   if (isSubmitted) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
-        <div className="backdrop-blur-xl bg-white/20 border border-white/30 rounded-3xl p-8 shadow-2xl max-w-md w-full">
+      <div className="min-h-screen flex items-center justify-center px-4">
+        <div className="backdrop-blur-xl bg-[#DCEDC8]/60 border border-white/30 rounded-3xl p-8 shadow-2xl max-w-md w-full">
           <div className="w-20 h-20 bg-black/20 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
             <svg className="w-10 h-10 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
@@ -120,7 +121,7 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 relative overflow-hidden">
+    <div className="min-h-screen relative overflow-hidden">
       {/* Background decorative elements */}
       <div className="absolute top-20 left-20 w-72 h-72 bg-gray-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
       <div className="absolute top-40 right-20 w-72 h-72 bg-gray-400 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
@@ -141,7 +142,7 @@ export default function ContactPage() {
           
           {/* Contact Information */}
           <div className="space-y-8">
-            <div className="backdrop-blur-xl bg-white/20 border border-white/30 rounded-3xl p-8 shadow-2xl">
+            <div className="backdrop-blur-xl bg-[#DCEDC8]/60 border border-white/30 rounded-3xl p-8 shadow-2xl">
               <h2 className="text-3xl font-bold text-black mb-6">Get in Touch</h2>
               <p className="text-gray-600 mb-8 leading-relaxed">
                 Our team of herbal medicine experts is ready to assist you with product recommendations, 
@@ -203,7 +204,7 @@ export default function ContactPage() {
             </div>
 
             {/* Business Hours Card */}
-            <div className="backdrop-blur-xl bg-white/20 border border-white/30 rounded-3xl p-8 shadow-2xl">
+            <div className="backdrop-blur-xl bg-[#DCEDC8]/60 border border-white/30 rounded-3xl p-8 shadow-2xl">
               <h3 className="text-2xl font-bold text-black mb-4">Business Hours</h3>
               <div className="space-y-3">
                 <div className="flex justify-between">
@@ -215,7 +216,7 @@ export default function ContactPage() {
           </div>
 
           {/* Contact Form */}
-          <div className="backdrop-blur-xl bg-white/20 border border-white/30 rounded-3xl p-8 shadow-2xl">
+          <div className="backdrop-blur-xl bg-[#DCEDC8]/60 border border-white/30 rounded-3xl p-8 shadow-2xl">
             <h2 className="text-3xl font-bold text-black mb-6">Send a Message</h2>
             
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -307,6 +308,8 @@ export default function ContactPage() {
             </form>
           </div>
         </div>
+
+        <SocialSection />
       </div>
 
       <style>{`
