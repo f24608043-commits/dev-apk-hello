@@ -33,11 +33,11 @@ function FeaturedProducts() {
     mutationFn: async (productId: string) => {
       if (!user) { navigate('/login'); return; }
       const { data: existing, error: fetchError } = await supabase.from('cart_items').select('id, quantity').eq('user_id', user.id).eq('product_id', productId).single();
-      
+
       if (fetchError && fetchError.code !== 'PGRST116') {
         throw fetchError;
       }
-      
+
       if (existing) {
         const { error: updateError } = await supabase.from('cart_items').update({ quantity: existing.quantity + 1 }).eq('id', existing.id);
         if (updateError) throw updateError;
@@ -64,9 +64,9 @@ function FeaturedProducts() {
         <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
           {products.map((p) => (
             <div key={p.id} className="h-full">
-              <ProductCard 
-                product={p as any} 
-                onAddToCart={(id) => addToCart.mutate(id)} 
+              <ProductCard
+                product={p as any}
+                onAddToCart={(id) => addToCart.mutate(id)}
               />
             </div>
           ))}
@@ -132,7 +132,7 @@ function ActiveDeals() {
                 <div className="font-mono text-sm text-gray-600 mb-4">
                   ⏰ ENDS IN: {countdown(deal.end_date)}
                 </div>
-                <Link 
+                <Link
                   to={`/product/${product.slug}`}
                   className="block w-full bg-black text-white py-2 px-4 rounded-2xl font-mono text-xs font-bold uppercase tracking-widest hover:bg-gray-900 transition-all duration-300 text-center"
                 >
@@ -170,9 +170,9 @@ function CategoriesSection() {
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {parentCategories.map((cat) => (
-            <Link 
-              key={cat.id} 
-              to={`/shop?category=${cat.slug}`} 
+            <Link
+              key={cat.id}
+              to={`/shop?category=${cat.slug}`}
               className="backdrop-blur-xl bg-[#DCEDC8]/60 border border-white/30 rounded-3xl p-8 text-center shadow-2xl hover:shadow-3xl transition-all duration-300 group"
             >
               <div className="w-16 h-16 bg-black/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-black/30 transition-colors duration-300">
@@ -251,6 +251,30 @@ function NewsletterSection() {
   );
 }
 
+function FeaturedVideoSection() {
+  return (
+    <section className="pb-16 -mt-8">
+      <div className="container mx-auto px-4 max-w-4xl">
+        <div className="backdrop-blur-xl bg-[#DCEDC8]/60 border border-white/30 rounded-3xl p-4 md:p-6 shadow-2xl mx-auto">
+          <div className="aspect-video w-full rounded-2xl overflow-hidden shadow-2xl border border-[rgba(255,255,255,0.3)] bg-black relative z-10 transition-transform duration-500 hover:scale-[1.02]">
+            <iframe
+              width="100%"
+              height="100%"
+              src="https://www.youtube.com/embed/TOJFHHyFo8Y?si=8pcaiGfFJG9kv__j"
+              title="Featured Home Video"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              allowFullScreen
+              className="w-full h-full object-cover"
+            ></iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 import MainHero from '@/components/hero/MainHero';
 
 export default function HomePage() {
@@ -296,6 +320,7 @@ export default function HomePage() {
           <ActiveDeals />
           <CategoriesSection />
           <NewsletterSection />
+          <FeaturedVideoSection />
           <SocialSection />
         </div>
       </div>
