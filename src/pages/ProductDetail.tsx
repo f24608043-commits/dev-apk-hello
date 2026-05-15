@@ -2,7 +2,8 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/context/AuthContext';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import ProductCard from '@/components/products/ProductCard';
 
 export default function ProductDetailPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -48,7 +49,7 @@ export default function ProductDetailPage() {
     queryKey: ['can_review', product?.id, user?.id],
     queryFn: async () => {
       if (!user || !product) return { canSubmit: false, alreadyReviewed: false };
-      
+
       const { data: existingReview } = await supabase
         .from('reviews')
         .select('id')
@@ -71,21 +72,64 @@ export default function ProductDetailPage() {
     enabled: !!product?.id && !!user,
   });
 
+  const { data: relatedProducts } = useQuery({
+    queryKey: ['related_products', product?.category_id],
+    queryFn: async () => {
+      if (!product?.category_id) return [];
+      const { data, error } = await supabase
+        .from('products')
+        .select('*')
+        .eq('category_id', product.category_id)
+        .neq('id', product.id)
+        .eq('is_active', true)
+        .limit(4);
+      if (error) throw error;
+      return data;
+    },
+    enabled: !!product?.category_id,
+  });
+
+  const addRelatedToCart = useMutation({
+    mutationFn: async (productId: string) => {
+      if (!user) { navigate('/login'); return; }
+      const { data: existing, error: fetchError } = await supabase
+        .from('cart_items')
+        .select('id, quantity')
+        .eq('user_id', user.id)
+        .eq('product_id', productId)
+        .single();
+
+      if (fetchError && fetchError.code !== 'PGRST116') throw fetchError;
+
+      if (existing) {
+        const { error: updateError } = await supabase.from('cart_items').update({ quantity: existing.quantity + 1 }).eq('id', existing.id);
+        if (updateError) throw updateError;
+      } else {
+        const { error: insertError } = await supabase.from('cart_items').insert({ user_id: user.id, product_id: productId, quantity: 1 });
+        if (insertError) throw insertError;
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['cart_count'] });
+      queryClient.invalidateQueries({ queryKey: ['cart'] });
+    },
+  });
+
   const addToCart = useMutation({
     mutationFn: async () => {
-      if (!user) { 
+      if (!user) {
         setCartStatus('PLEASE LOGIN TO ADD ITEMS TO CART');
-        navigate('/login'); 
-        return; 
+        navigate('/login');
+        return;
       }
       setCartStatus('');
-      
+
       const { data: existing, error: fetchError } = await supabase.from('cart_items').select('id, quantity').eq('user_id', user.id).eq('product_id', product!.id).single();
-      
+
       if (fetchError && fetchError.code !== 'PGRST116') { // PGRST116 is "not found" error
         throw fetchError;
       }
-      
+
       if (existing) {
         const { error: updateError } = await supabase.from('cart_items').update({ quantity: existing.quantity + quantity }).eq('id', existing.id);
         if (updateError) throw updateError;
@@ -148,11 +192,10 @@ export default function ProductDetailPage() {
                 <button
                   key={i}
                   onClick={() => setSelectedImage(img)}
-                  className={`relative h-20 w-20 flex-shrink-0 rounded-xl overflow-hidden border-2 transition-all duration-300 ${
-                    (selectedImage ?? allImages[0]) === img 
-                      ? 'border-gray-900 shadow-md ring-2 ring-gray-900/5' 
-                      : 'border-transparent hover:border-gray-200'
-                  }`}
+                  className={`relative h-20 w-20 flex-shrink-0 rounded-xl overflow-hidden border-2 transition-all duration-300 ${(selectedImage ?? allImages[0]) === img
+                    ? 'border-gray-900 shadow-md ring-2 ring-gray-900/5'
+                    : 'border-transparent hover:border-gray-200'
+                    }`}
                 >
                   <img src={img} alt="" className="h-full w-full object-cover" />
                 </button>
@@ -176,27 +219,17 @@ export default function ProductDetailPage() {
             )}
           </div>
 
-          <div className="mt-4 font-mono text-xs">
-            {product.stock > 0 ? (
-              <span className="text-success">IN STOCK ({product.stock} LEFT)</span>
-            ) : (
-              <span className="text-destructive">OUT OF STOCK</span>
-            )}
+          <div className="mt-4 flex items-center gap-4">
+            <label className="label-text">QTY</label>
+            <input
+              type="number"
+              min={1}
+              max={product.stock}
+              value={quantity}
+              onChange={(e) => setQuantity(Math.max(1, Math.min(product.stock, parseInt(e.target.value) || 1)))}
+              className="w-20 border-2 border-border bg-background p-2 font-mono text-xs outline-none focus:border-foreground"
+            />
           </div>
-
-          {product.stock > 0 && (
-            <div className="mt-4 flex items-center gap-4">
-              <label className="label-text">QTY</label>
-              <input
-                type="number"
-                min={1}
-                max={product.stock}
-                value={quantity}
-                onChange={(e) => setQuantity(Math.max(1, Math.min(product.stock, parseInt(e.target.value) || 1)))}
-                className="w-20 border-2 border-border bg-background p-2 font-mono text-xs outline-none focus:border-foreground"
-              />
-            </div>
-          )}
 
           <div className="mt-6 flex gap-4">
             <button
@@ -305,6 +338,21 @@ export default function ProductDetailPage() {
           )}
         </div>
       </div>
+      {/* Related Products */}
+      {relatedProducts && relatedProducts.length > 0 && (
+        <div className="mt-16 border-t border-border pt-12">
+          <h2 className="text-2xl font-bold uppercase tracking-widest text-foreground mb-8">Related Products</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+            {relatedProducts.map((p) => (
+              <ProductCard
+                key={p.id}
+                product={p as any}
+                onAddToCart={(id) => addRelatedToCart.mutate(id)}
+              />
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

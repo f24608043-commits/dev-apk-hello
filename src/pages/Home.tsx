@@ -148,44 +148,72 @@ function ActiveDeals() {
 }
 
 function CategoriesSection() {
-  const { data: categories } = useQuery({
-    queryKey: ['categories'],
-    queryFn: async () => {
-      const { data, error } = await supabase.from('categories').select('*');
-      if (error) throw error;
-      return data;
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const { user } = useAuth();
+
+  const addToCart = useMutation({
+    mutationFn: async (productId: string) => {
+      if (!user) { navigate('/login'); return; }
+      const { data: existing, error: fetchError } = await supabase.from('cart_items').select('id, quantity').eq('user_id', user.id).eq('product_id', productId).single();
+
+      if (fetchError && fetchError.code !== 'PGRST116') throw fetchError;
+
+      if (existing) {
+        const { error: updateError } = await supabase.from('cart_items').update({ quantity: existing.quantity + 1 }).eq('id', existing.id);
+        if (updateError) throw updateError;
+      } else {
+        const { error: insertError } = await supabase.from('cart_items').insert({ user_id: user.id, product_id: productId, quantity: 1 });
+        if (insertError) throw insertError;
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['cart_count'] });
+      queryClient.invalidateQueries({ queryKey: ['cart'] });
     },
   });
 
-  if (!categories?.length) return null;
+  const { data: categoriesWithProducts } = useQuery({
+    queryKey: ['categories_with_products'],
+    queryFn: async () => {
+      const { data: categories, error: catError } = await supabase.from('categories').select('*').is('parent_id', null);
+      if (catError) throw catError;
 
-  const parentCategories = categories.filter(c => !c.parent_id);
+      const { data: products, error: prodError } = await supabase.from('products').select('*').eq('is_active', true);
+      if (prodError) throw prodError;
+
+      return categories.map(cat => ({
+        ...cat,
+        products: products.filter(p => p.category_id === cat.id)
+      })).filter(cat => cat.products.length > 0);
+    },
+  });
+
+  if (!categoriesWithProducts?.length) return null;
 
   return (
-    <section className="py-16">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-black mb-4">Categories</h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">Browse our herbal remedies by category</p>
-        </div>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {parentCategories.map((cat) => (
-            <Link
-              key={cat.id}
-              to={`/shop?category=${cat.slug}`}
-              className="backdrop-blur-xl bg-[#DCEDC8]/60 border border-white/30 rounded-3xl p-8 text-center shadow-2xl hover:shadow-3xl transition-all duration-300 group"
-            >
-              <div className="w-16 h-16 bg-black/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-black/30 transition-colors duration-300">
-                <svg className="w-8 h-8 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                </svg>
-              </div>
-              <span className="text-sm font-bold uppercase tracking-widest text-black group-hover:text-gray-700 transition-colors duration-300">{cat.name}</span>
+    <div className="space-y-24 py-16">
+      {categoriesWithProducts.map((cat, index) => (
+        <section key={cat.id} className={index !== 0 ? 'pt-16 border-t border-gray-200 backdrop-blur-sm' : ''}>
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-black mb-4">{cat.name}</h2>
+            <Link to={`/shop?category=${cat.slug}`} className="font-mono text-sm inline-flex items-center gap-2 text-black hover:text-gray-700 hover:underline transition-all duration-300">
+              VIEW ALL {cat.name} <span className="text-lg">→</span>
             </Link>
-          ))}
-        </div>
-      </div>
-    </section>
+          </div>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
+            {cat.products.map((p) => (
+              <div key={p.id} className="h-full">
+                <ProductCard
+                  product={p as any}
+                  onAddToCart={(id) => addToCart.mutate(id)}
+                />
+              </div>
+            ))}
+          </div>
+        </section>
+      ))}
+    </div>
   );
 }
 

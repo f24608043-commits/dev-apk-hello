@@ -1,5 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/context/AuthContext";
 import { ProtectedRoute, AdminRoute } from "@/components/RouteGuards";
@@ -34,11 +35,20 @@ import NotFound from "@/pages/NotFound";
 
 const queryClient = new QueryClient();
 
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+}
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <AuthProvider>
-          <BrowserRouter>
+        <BrowserRouter>
+          <ScrollToTop />
           <Routes>
             <Route path="/login" element={<LoginPage />} />
             <Route element={<StoreLayout />}>
@@ -74,8 +84,8 @@ const App = () => (
           </Routes>
         </BrowserRouter>
       </AuthProvider>
-  </TooltipProvider>
-</QueryClientProvider>
+    </TooltipProvider>
+  </QueryClientProvider>
 );
 
 export default App;
