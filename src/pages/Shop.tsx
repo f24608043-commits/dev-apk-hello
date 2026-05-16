@@ -3,6 +3,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/context/AuthContext';
 import ProductGrid from '@/components/products/ProductGrid';
+import { addToLocalCart } from '@/lib/cart';
 
 export default function ShopPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -88,13 +89,16 @@ export default function ShopPage() {
 
   const addToCart = useMutation({
     mutationFn: async (productId: string) => {
-      if (!user) { navigate('/login'); return; }
+      if (!user) {
+        addToLocalCart(productId, 1);
+        return;
+      }
       const { data: existing, error: fetchError } = await supabase.from('cart_items').select('id, quantity').eq('user_id', user.id).eq('product_id', productId).single();
-      
+
       if (fetchError && fetchError.code !== 'PGRST116') {
         throw fetchError;
       }
-      
+
       if (existing) {
         const { error: updateError } = await supabase.from('cart_items').update({ quantity: existing.quantity + 1 }).eq('id', existing.id);
         if (updateError) throw updateError;
@@ -205,83 +209,83 @@ export default function ShopPage() {
             </div>
           </aside>
 
-        {/* Main content */}
-        <div className="lg:col-span-3">
-          <div className="backdrop-blur-xl bg-[#DCEDC8]/60 border border-white/30 rounded-3xl p-6 shadow-2xl mb-6">
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-              <input
-                type="text"
-                placeholder="SEARCH PRODUCTS..."
-                value={filters.search}
-                onChange={(e) => updateParam('search', e.target.value)}
-                className="flex-1 bg-white/30 backdrop-blur-sm border-2 border-white/40 p-3 rounded-2xl font-mono text-sm text-gray-800 placeholder-gray-500 outline-none focus:border-black focus:bg-white/50 transition-all duration-300 sm:w-64"
-              />
-              <select
-                value={filters.sort}
-                onChange={(e) => updateParam('sort', e.target.value)}
-                className="bg-white/30 backdrop-blur-sm border-2 border-white/40 p-3 rounded-2xl font-mono text-sm text-gray-800 outline-none focus:border-black focus:bg-white/50 transition-all duration-300"
-              >
-                <option value="newest">NEWEST</option>
-                <option value="price_asc">PRICE: LOW → HIGH</option>
-                <option value="price_desc">PRICE: HIGH → LOW</option>
-                <option value="name_asc">NAME A → Z</option>
-              </select>
-            </div>
-          </div>
-
-          {/* Category banner */}
-          {selectedCategory && (
+          {/* Main content */}
+          <div className="lg:col-span-3">
             <div className="backdrop-blur-xl bg-[#DCEDC8]/60 border border-white/30 rounded-3xl p-6 shadow-2xl mb-6">
-              {selectedCategory.banner_image_url && (
-                <img src={selectedCategory.banner_image_url} alt={selectedCategory.name} className="mb-4 w-full object-cover rounded-2xl" style={{ maxHeight: 200 }} />
-              )}
-              <h2 className="text-2xl font-bold text-black">{selectedCategory.name}</h2>
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <input
+                  type="text"
+                  placeholder="SEARCH PRODUCTS..."
+                  value={filters.search}
+                  onChange={(e) => updateParam('search', e.target.value)}
+                  className="flex-1 bg-white/30 backdrop-blur-sm border-2 border-white/40 p-3 rounded-2xl font-mono text-sm text-gray-800 placeholder-gray-500 outline-none focus:border-black focus:bg-white/50 transition-all duration-300 sm:w-64"
+                />
+                <select
+                  value={filters.sort}
+                  onChange={(e) => updateParam('sort', e.target.value)}
+                  className="bg-white/30 backdrop-blur-sm border-2 border-white/40 p-3 rounded-2xl font-mono text-sm text-gray-800 outline-none focus:border-black focus:bg-white/50 transition-all duration-300"
+                >
+                  <option value="newest">NEWEST</option>
+                  <option value="price_asc">PRICE: LOW → HIGH</option>
+                  <option value="price_desc">PRICE: HIGH → LOW</option>
+                  <option value="name_asc">NAME A → Z</option>
+                </select>
+              </div>
             </div>
-          )}
 
-          {isLoading ? (
-            <div className="backdrop-blur-xl bg-white/20 border border-white/30 rounded-3xl p-12 shadow-2xl text-center">
-              <p className="font-mono text-sm text-gray-600">FETCHING DATA...</p>
-            </div>
-          ) : productsData?.products.length === 0 ? (
-            <div className="backdrop-blur-xl bg-white/20 border border-white/30 rounded-3xl p-12 shadow-2xl text-center">
-              <p className="font-mono text-sm text-gray-600">NO PRODUCTS FOUND.</p>
-            </div>
-          ) : (
-            <>
-              <ProductGrid
-                products={productsData?.products || []}
-                onAddToCart={(productId) => addToCart.mutate(productId)}
-                columns={{ mobile: 2, tablet: 3, desktop: 4, large: 5 }}
-              />
+            {/* Category banner */}
+            {selectedCategory && (
+              <div className="backdrop-blur-xl bg-[#DCEDC8]/60 border border-white/30 rounded-3xl p-6 shadow-2xl mb-6">
+                {selectedCategory.banner_image_url && (
+                  <img src={selectedCategory.banner_image_url} alt={selectedCategory.name} className="mb-4 w-full object-cover rounded-2xl" style={{ maxHeight: 200 }} />
+                )}
+                <h2 className="text-2xl font-bold text-black">{selectedCategory.name}</h2>
+              </div>
+            )}
 
-              {totalPages > 1 && (
-                <div className="backdrop-blur-xl bg-white/20 border border-white/30 rounded-3xl p-6 shadow-2xl mt-6">
-                  <div className="flex items-center justify-center gap-4">
-                    <button
-                      disabled={filters.page <= 1}
-                      onClick={() => updateParam('page', String(filters.page - 1))}
-                      className="bg-black text-white px-6 py-2 rounded-2xl font-mono text-xs font-bold uppercase tracking-widest hover:bg-gray-900 transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed"
-                    >
-                      ← PREV
-                    </button>
-                    <span className="font-mono text-sm text-gray-600">PAGE {filters.page} / {totalPages}</span>
-                    <button
-                      disabled={filters.page >= totalPages}
-                      onClick={() => updateParam('page', String(filters.page + 1))}
-                      className="bg-black text-white px-6 py-2 rounded-2xl font-mono text-xs font-bold uppercase tracking-widest hover:bg-gray-900 transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed"
-                    >
-                      NEXT →
-                    </button>
+            {isLoading ? (
+              <div className="backdrop-blur-xl bg-white/20 border border-white/30 rounded-3xl p-12 shadow-2xl text-center">
+                <p className="font-mono text-sm text-gray-600">FETCHING DATA...</p>
+              </div>
+            ) : productsData?.products.length === 0 ? (
+              <div className="backdrop-blur-xl bg-white/20 border border-white/30 rounded-3xl p-12 shadow-2xl text-center">
+                <p className="font-mono text-sm text-gray-600">NO PRODUCTS FOUND.</p>
+              </div>
+            ) : (
+              <>
+                <ProductGrid
+                  products={productsData?.products || []}
+                  onAddToCart={(productId) => addToCart.mutate(productId)}
+                  columns={{ mobile: 2, tablet: 3, desktop: 4, large: 5 }}
+                />
+
+                {totalPages > 1 && (
+                  <div className="backdrop-blur-xl bg-white/20 border border-white/30 rounded-3xl p-6 shadow-2xl mt-6">
+                    <div className="flex items-center justify-center gap-4">
+                      <button
+                        disabled={filters.page <= 1}
+                        onClick={() => updateParam('page', String(filters.page - 1))}
+                        className="bg-black text-white px-6 py-2 rounded-2xl font-mono text-xs font-bold uppercase tracking-widest hover:bg-gray-900 transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed"
+                      >
+                        ← PREV
+                      </button>
+                      <span className="font-mono text-sm text-gray-600">PAGE {filters.page} / {totalPages}</span>
+                      <button
+                        disabled={filters.page >= totalPages}
+                        onClick={() => updateParam('page', String(filters.page + 1))}
+                        className="bg-black text-white px-6 py-2 rounded-2xl font-mono text-xs font-bold uppercase tracking-widest hover:bg-gray-900 transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed"
+                      >
+                        NEXT →
+                      </button>
+                    </div>
                   </div>
-                </div>
-              )}
-            </>
-          )}
+                )}
+              </>
+            )}
+          </div>
         </div>
-      </div>
 
-      <style>{`
+        <style>{`
         @keyframes blob {
           0% {
             transform: translate(0px, 0px) scale(1);

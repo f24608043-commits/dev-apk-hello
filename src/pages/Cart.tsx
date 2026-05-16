@@ -2,7 +2,8 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/context/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { getLocalCart, updateLocalCartQty, removeFromLocalCart } from '@/lib/cart';
 
 export default function CartPage() {
   const { user } = useAuth();
@@ -11,11 +12,22 @@ export default function CartPage() {
   const [couponCode, setCouponCode] = useState('');
   const [couponResult, setCouponResult] = useState<any>(null);
   const [couponError, setCouponError] = useState('');
+  const [localCartVersion, setLocalCartVersion] = useState(0);
 
-  const { data: cartItems, isLoading, error } = useQuery({
+  // Listen for local cart changes (for guests)
+  useEffect(() => {
+    if (!user) {
+      const handler = () => setLocalCartVersion(v => v + 1);
+      window.addEventListener('cart_updated', handler);
+      return () => window.removeEventListener('cart_updated', handler);
+    }
+  }, [user]);
+
+  // Authenticated user cart from Supabase
+  const { data: supabaseCartItems, isLoading: supabaseLoading, error: supabaseError } = useQuery({
     queryKey: ['cart', user?.id],
     queryFn: async () => {
-      if (!user?.id) throw new Error('User not authenticated');
+      if (!user?.id) return [];
       const { data, error } = await supabase
         .from('cart_items')
         .select('*, products(id, name, slug, price, stock)')
@@ -27,8 +39,45 @@ export default function CartPage() {
     retry: 2,
   });
 
+  // Guest cart: fetch product details for local cart items
+  const localCart = getLocalCart();
+  const localProductIds = localCart.map(i => i.product_id);
+
+  const { data: guestProducts, isLoading: guestLoading } = useQuery({
+    queryKey: ['guest_cart_products', ...localProductIds, localCartVersion],
+    queryFn: async () => {
+      if (localProductIds.length === 0) return [];
+      const { data, error } = await supabase
+        .from('products')
+        .select('id, name, slug, price, stock')
+        .in('id', localProductIds);
+      if (error) throw error;
+      return data ?? [];
+    },
+    enabled: !user && localProductIds.length > 0,
+  });
+
+  // Normalize both cart types into one unified shape
+  const cartItems = user
+    ? (supabaseCartItems ?? []).map(item => ({
+      id: item.id,
+      product: item.products as any,
+      quantity: item.quantity,
+    }))
+    : localCart.map(item => {
+      const product = guestProducts?.find(p => p.id === item.product_id);
+      return product ? { id: item.id, product, quantity: item.quantity } : null;
+    }).filter(Boolean) as { id: string; product: any; quantity: number }[];
+
+  const isLoading = user ? supabaseLoading : guestLoading;
+  const error = user ? supabaseError : null;
+
   const updateQty = useMutation({
     mutationFn: async ({ id, quantity }: { id: string; quantity: number }) => {
+      if (!user) {
+        updateLocalCartQty(id, quantity);
+        return;
+      }
       const { error } = quantity <= 0
         ? await supabase.from('cart_items').delete().eq('id', id)
         : await supabase.from('cart_items').update({ quantity }).eq('id', id);
@@ -42,6 +91,10 @@ export default function CartPage() {
 
   const removeItem = useMutation({
     mutationFn: async (id: string) => {
+      if (!user) {
+        removeFromLocalCart(id);
+        return;
+      }
       const { error } = await supabase.from('cart_items').delete().eq('id', id);
       if (error) throw error;
     },
@@ -50,6 +103,10 @@ export default function CartPage() {
       queryClient.invalidateQueries({ queryKey: ['cart_count'] });
     },
   });
+
+  const subtotal = cartItems.reduce((sum, item) => {
+    return sum + Number(item.product.price) * item.quantity;
+  }, 0);
 
   async function applyCoupon() {
     setCouponError('');
@@ -90,11 +147,6 @@ export default function CartPage() {
     );
   }
 
-  const subtotal = cartItems.reduce((sum, item) => {
-    const product = item.products as any;
-    return sum + Number(product.price) * item.quantity;
-  }, 0);
-
   const discount = couponResult?.discount_amount ?? 0;
   const total = subtotal - discount;
 
@@ -116,7 +168,7 @@ export default function CartPage() {
             </thead>
             <tbody>
               {cartItems.map((item) => {
-                const product = item.products as any;
+                const product = item.product;
                 return (
                   <tr key={item.id} className="border-b border-border">
                     <td className="py-4">

@@ -12,16 +12,21 @@ export default function OrderConfirmationPage() {
   const { data: order } = useQuery({
     queryKey: ['order', orderId],
     queryFn: async () => {
-      const { data, error } = await supabase
+      let query = supabase
         .from('orders')
         .select('*, order_items(*, products(name))')
-        .eq('id', orderId!)
-        .eq('user_id', user!.id)
-        .single();
+        .eq('id', orderId!);
+
+      // For logged-in users, also verify ownership
+      if (user) {
+        query = query.eq('user_id', user.id);
+      }
+
+      const { data, error } = await query.single();
       if (error) throw error;
       return data;
     },
-    enabled: !!orderId && !!user,
+    enabled: !!orderId,
   });
 
   if (!order) return <div className="p-6 font-mono text-xs text-muted-foreground">FETCHING DATA...</div>;
@@ -76,9 +81,15 @@ export default function OrderConfirmationPage() {
         </div>
       </div>
 
-      <Link to="/account" className="mt-6 block text-center font-mono text-xs text-accent hover:underline">
-        → VIEW ALL ORDERS
-      </Link>
+      {user ? (
+        <Link to="/account" className="mt-6 block text-center font-mono text-xs text-accent hover:underline">
+          → VIEW ALL ORDERS
+        </Link>
+      ) : (
+        <Link to="/shop" className="mt-6 block text-center font-mono text-xs text-accent hover:underline">
+          → CONTINUE SHOPPING
+        </Link>
+      )}
     </div>
   );
 }

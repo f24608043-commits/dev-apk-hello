@@ -1,13 +1,15 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { SearchIcon, CartIcon, AccountIcon } from '@/components/Icons';
+import { getLocalCart } from '@/lib/cart';
 
 export default function Header() {
   const { user, profile, isAdmin, signOut } = useAuth();
-    const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const [menuOpen, setMenuOpen] = useState(false);
@@ -24,13 +26,27 @@ export default function Header() {
   const { data: cartCount } = useQuery({
     queryKey: ['cart_count', user?.id],
     queryFn: async () => {
-      if (!user) return 0;
+      if (!user) {
+        return getLocalCart().reduce((sum, item) => sum + item.quantity, 0);
+      }
       const { data } = await supabase.from('cart_items').select('quantity').eq('user_id', user.id);
       return data?.reduce((sum, item) => sum + item.quantity, 0) ?? 0;
     },
-    enabled: !!user,
     refetchOnWindowFocus: true,
   });
+
+  useEffect(() => {
+    if (!user) {
+      const handleCartUpdate = () => {
+        supabase.auth.getSession().then(() => {
+          // We just trigger a refetch of the query since React Query handles the state
+          queryClient.invalidateQueries({ queryKey: ['cart_count', user?.id] });
+        });
+      };
+      window.addEventListener('cart_updated', handleCartUpdate);
+      return () => window.removeEventListener('cart_updated', handleCartUpdate);
+    }
+  }, [user]);
 
   const { data: categories } = useQuery({
     queryKey: ['categories'],
@@ -62,12 +78,12 @@ export default function Header() {
         <nav className="hidden items-center gap-8 md:flex">
           <Link to="/" className="text-xs font-bold uppercase tracking-widest text-foreground hover:text-accent">HOME</Link>
           <Link to="/shop" className="text-xs font-bold uppercase tracking-widest text-foreground hover:text-accent">SHOP</Link>
-          
+
           {/* Dynamic Categories in Top Bar */}
           {parentCategories.map((category) => {
             const subcategories = getSubcategories(category.id);
             const hasSubcategories = subcategories && subcategories.length > 0;
-            
+
             if (hasSubcategories) {
               // Category with dropdown
               return (
@@ -80,9 +96,9 @@ export default function Header() {
                   >
                     {category.name} ▾
                   </button>
-                  
+
                   {categoryDropdownOpen === category.id && (
-                    <div 
+                    <div
                       className="absolute top-full left-0 bg-background border border-foreground shadow-lg z-50"
                       style={{ minWidth: '200px' }}
                       onMouseEnter={() => setCategoryDropdownOpen(category.id)}
@@ -116,9 +132,9 @@ export default function Header() {
             } else {
               // Category without dropdown - direct link
               return (
-                <Link 
+                <Link
                   key={category.id}
-                  to={`/shop?category=${category.slug}`} 
+                  to={`/shop?category=${category.slug}`}
                   className="text-xs font-bold uppercase tracking-widest text-foreground hover:text-accent"
                 >
                   {category.name}
@@ -151,9 +167,9 @@ export default function Header() {
             </button>
           )}
 
-          
+
           <Link to="/cart" className="relative p-2 hover:text-accent" title="Cart">
-              <CartIcon className="w-5 h-5" />
+            <CartIcon className="w-5 h-5" />
             {(cartCount ?? 0) > 0 && (
               <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center bg-accent text-[10px] font-bold text-accent-foreground">
                 {cartCount}
@@ -192,12 +208,12 @@ export default function Header() {
         <div className="border-t border-border px-6 py-4 md:hidden">
           <Link to="/" onClick={() => setMenuOpen(false)} className="block py-2 text-xs font-bold uppercase tracking-widest">HOME</Link>
           <Link to="/shop" onClick={() => setMenuOpen(false)} className="block py-2 text-xs font-bold uppercase tracking-widest">SHOP</Link>
-          
+
           {/* Mobile Categories - directly in nav */}
           {parentCategories.map((category) => {
             const subcategories = getSubcategories(category.id);
             const hasSubcategories = subcategories && subcategories.length > 0;
-            
+
             if (hasSubcategories) {
               // Category with dropdown
               return (
@@ -208,14 +224,14 @@ export default function Header() {
                   >
                     {category.name} ▾
                   </button>
-                  
+
                   {categoryDropdownOpen === category.id && (
                     <div className="pl-4 bg-muted">
                       {subcategories.map((subcategory) => (
-                        <Link 
+                        <Link
                           key={subcategory.id}
-                          to={`/shop?category=${category.slug}&subcategory=${subcategory.slug}`} 
-                          onClick={() => setMenuOpen(false)} 
+                          to={`/shop?category=${category.slug}&subcategory=${subcategory.slug}`}
+                          onClick={() => setMenuOpen(false)}
                           className="block pl-4 py-1 text-xs uppercase tracking-widest text-muted-foreground hover:text-accent"
                         >
                           {subcategory.name}
@@ -228,10 +244,10 @@ export default function Header() {
             } else {
               // Category without dropdown - direct link
               return (
-                <Link 
+                <Link
                   key={category.id}
-                  to={`/shop?category=${category.slug}`} 
-                  onClick={() => setMenuOpen(false)} 
+                  to={`/shop?category=${category.slug}`}
+                  onClick={() => setMenuOpen(false)}
                   className="block py-2 text-xs font-bold uppercase tracking-widest"
                 >
                   {category.name}
@@ -239,7 +255,7 @@ export default function Header() {
               );
             }
           })}
-          
+
           <Link to="/blog" onClick={() => setMenuOpen(false)} className="block py-2 text-xs font-bold uppercase tracking-widest">BLOG</Link>
           <Link to="/contact" onClick={() => setMenuOpen(false)} className="block py-2 text-xs font-bold uppercase tracking-widest">CONTACT</Link>
           <Link to="/about" onClick={() => setMenuOpen(false)} className="block py-2 text-xs font-bold uppercase tracking-widest">ABOUT</Link>
