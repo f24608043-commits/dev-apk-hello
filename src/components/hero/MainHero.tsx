@@ -11,7 +11,7 @@ export default function MainHero() {
             Authentic Herbal Care <br className="hidden md:block"/>Since 2006
           </h1>
           
-          <p className="text-lg md:text-xl text-gray-700 mb-10 max-w-xl leading-relaxed">
+          <p className="text-xl md:text-2xl text-black mb-10 max-w-xl leading-relaxed font-bold">
             Experience the wisdom of Hakeem Muhammad Amin, Pakistan's trusted voice in Unani and Herbal medicine. Bridging centuries of tradition with modern clinical precision.
           </p>
           

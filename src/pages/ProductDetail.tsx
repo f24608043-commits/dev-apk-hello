@@ -91,7 +91,7 @@ export default function ProductDetailPage() {
   });
 
   const addRelatedToCart = useMutation({
-    mutationFn: async (productId: string) => {
+    mutationFn: async ({ productId, onSuccess }: { productId: string; onSuccess?: () => void }) => {
       if (!user) {
         addToLocalCart(productId, 1);
         return;
@@ -113,9 +113,10 @@ export default function ProductDetailPage() {
         if (insertError) throw insertError;
       }
     },
-    onSuccess: () => {
+    onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ['cart_count'] });
       queryClient.invalidateQueries({ queryKey: ['cart'] });
+      if (variables.onSuccess) variables.onSuccess();
     },
   });
 
@@ -373,7 +374,7 @@ export default function ProductDetailPage() {
               <ProductCard
                 key={p.id}
                 product={p as any}
-                onAddToCart={(id) => addRelatedToCart.mutate(id)}
+                onAddToCart={(id, cb) => addRelatedToCart.mutate({ productId: id, onSuccess: cb })}
               />
             ))}
           </div>

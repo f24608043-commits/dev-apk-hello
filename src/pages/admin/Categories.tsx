@@ -159,7 +159,7 @@ export default function AdminCategories() {
               <td className="py-2 text-xs text-muted-foreground">{c.description ?? '—'}</td>
               <td className="py-2 text-right data-text text-sm">{getProductCount(c.id)}</td>
               <td className="py-2 text-right">
-                <button onClick={() => setForm({ id: c.id, name: c.name, slug: c.slug, description: c.description ?? '', parent_id: c.parent_id ?? '', banner_image_url: c.banner_image_url ?? '' })} className="mr-2 font-mono text-xs text-accent hover:underline">EDIT</button>
+                <button onClick={() => setForm({ id: c.id, name: c.name, slug: c.slug, description: c.description ?? '', parent_id: c.parent_id ?? '', banner_image_url: c.banner_image_url ?? '' })} className="mr-2 font-mono text-xs text-black hover:underline">EDIT</button>
                 <button onClick={() => { if (confirm('Delete?')) deleteMutation.mutate(c.id); }} className="font-mono text-xs text-destructive hover:underline">DELETE</button>
               </td>
             </tr>

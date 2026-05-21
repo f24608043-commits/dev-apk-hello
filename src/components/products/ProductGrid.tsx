@@ -3,7 +3,7 @@ import ProductCard, { Product } from './ProductCard';
 
 interface ProductGridProps {
   products: Product[];
-  onAddToCart: (productId: string) => void;
+  onAddToCart: (productId: string, onSuccess?: () => void) => void;
   onWishlistToggle?: (productId: string) => void;
   wishlistProductIds?: Set<string>;
   showQuickView?: boolean;

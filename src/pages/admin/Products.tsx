@@ -268,7 +268,7 @@ export default function AdminProducts() {
                     image_1: p.image_1 ?? '', image_2: p.image_2 ?? '', image_3: p.image_3 ?? '',
                     is_featured: p.is_featured ?? false, is_active: p.is_active ?? true,
                   })}
-                  className="mr-2 font-mono text-xs text-accent hover:underline"
+                  className="mr-2 font-mono text-xs text-black hover:underline"
                 >
                   EDIT
                 </button>

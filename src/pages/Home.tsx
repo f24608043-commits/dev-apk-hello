@@ -30,7 +30,7 @@ function FeaturedProducts() {
   });
 
   const addToCart = useMutation({
-    mutationFn: async (productId: string) => {
+    mutationFn: async ({ productId, onSuccess }: { productId: string; onSuccess?: () => void }) => {
       if (!user) { navigate('/login'); return; }
       const { data: existing, error: fetchError } = await supabase.from('cart_items').select('id, quantity').eq('user_id', user.id).eq('product_id', productId).single();
 
@@ -46,9 +46,10 @@ function FeaturedProducts() {
         if (insertError) throw insertError;
       }
     },
-    onSuccess: () => {
+    onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ['cart_count'] });
       queryClient.invalidateQueries({ queryKey: ['cart'] });
+      if (variables.onSuccess) variables.onSuccess();
     },
   });
 
@@ -66,7 +67,7 @@ function FeaturedProducts() {
             <div key={p.id} className="h-full">
               <ProductCard
                 product={p as any}
-                onAddToCart={(id) => addToCart.mutate(id)}
+                onAddToCart={(id, cb) => addToCart.mutate({ productId: id, onSuccess: cb })}
               />
             </div>
           ))}
@@ -153,7 +154,7 @@ function CategoriesSection() {
   const { user } = useAuth();
 
   const addToCart = useMutation({
-    mutationFn: async (productId: string) => {
+    mutationFn: async ({ productId, onSuccess }: { productId: string; onSuccess?: () => void }) => {
       if (!user) { navigate('/login'); return; }
       const { data: existing, error: fetchError } = await supabase.from('cart_items').select('id, quantity').eq('user_id', user.id).eq('product_id', productId).single();
 
@@ -167,9 +168,10 @@ function CategoriesSection() {
         if (insertError) throw insertError;
       }
     },
-    onSuccess: () => {
+    onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ['cart_count'] });
       queryClient.invalidateQueries({ queryKey: ['cart'] });
+      if (variables.onSuccess) variables.onSuccess();
     },
   });
 
@@ -206,7 +208,7 @@ function CategoriesSection() {
               <div key={p.id} className="h-full">
                 <ProductCard
                   product={p as any}
-                  onAddToCart={(id) => addToCart.mutate(id)}
+                  onAddToCart={(id, cb) => addToCart.mutate({ productId: id, onSuccess: cb })}
                 />
               </div>
             ))}

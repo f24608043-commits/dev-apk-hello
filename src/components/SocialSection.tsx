@@ -23,8 +23,7 @@ export default function SocialSection() {
         {/* YouTube Section */}
         <div className="mb-12">
           <div className="flex items-center justify-center gap-2 mb-6">
-            <Youtube className="w-6 h-6 text-red-600" />
-            <h2 className="text-xl font-black uppercase tracking-[0.2em] text-black">YouTube Channels</h2>
+            <Youtube className="w-8 h-8 text-red-600" />
           </div>
           
           <div className="flex flex-wrap justify-center items-center gap-x-6 gap-y-4">
@@ -36,8 +35,8 @@ export default function SocialSection() {
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 text-black hover:text-red-600 transition-colors duration-300 group"
                 >
-                  <Youtube className="w-4 h-4 text-red-600 group-hover:scale-110 transition-transform" />
-                  <span className="text-[10px] font-bold uppercase tracking-widest">{channel.name}</span>
+                  <Youtube className="w-6 h-6 text-red-600 group-hover:scale-110 transition-transform" />
+                  <span className="text-sm md:text-base font-black uppercase tracking-widest">{channel.name}</span>
                 </a>
                 {i < youtubeChannels.length - 1 && (
                   <span className="ml-6 text-black/20 font-light">|</span>
@@ -50,8 +49,7 @@ export default function SocialSection() {
         {/* Facebook Section */}
         <div>
           <div className="flex items-center justify-center gap-2 mb-6">
-            <Facebook className="w-6 h-6 text-blue-600" />
-            <h2 className="text-xl font-black uppercase tracking-[0.2em] text-black">Facebook Pages</h2>
+            <Facebook className="w-8 h-8 text-blue-600" />
           </div>
           
           <div className="flex flex-wrap justify-center items-center gap-x-6 gap-y-4">
@@ -63,8 +61,8 @@ export default function SocialSection() {
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 text-black hover:text-blue-600 transition-colors duration-300 group"
                 >
-                  <Facebook className="w-4 h-4 text-blue-600 group-hover:scale-110 transition-transform" />
-                  <span className="text-[10px] font-bold uppercase tracking-widest">{page.name}</span>
+                  <Facebook className="w-6 h-6 text-blue-600 group-hover:scale-110 transition-transform" />
+                  <span className="text-sm md:text-base font-black uppercase tracking-widest">{page.name}</span>
                 </a>
                 {i < facebookPages.length - 1 && (
                   <span className="ml-6 text-black/20 font-light">|</span>

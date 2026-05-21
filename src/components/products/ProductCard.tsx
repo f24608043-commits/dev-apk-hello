@@ -21,7 +21,7 @@ export interface Product {
 
 interface ProductCardProps {
   product: Product;
-  onAddToCart: (productId: string) => void;
+  onAddToCart: (productId: string, onSuccess?: () => void) => void;
   onWishlistToggle?: (productId: string) => void;
   isWishlisted?: boolean;
   showQuickView?: boolean;
@@ -72,8 +72,9 @@ export default function ProductCard({
     e.preventDefault();
     e.stopPropagation();
     if (!isOutOfStock) {
-      onAddToCart(product.id);
-      navigate('/checkout');
+      onAddToCart(product.id, () => {
+        navigate('/checkout');
+      });
     }
   };
 
@@ -112,41 +113,29 @@ export default function ProductCard({
         </div>
 
         {/* Content Section */}
-        <div className="p-3 md:p-5 flex flex-col flex-1">
+        <div className="p-2 md:p-3 flex flex-col flex-1">
           <div className="flex-1">
             {/* Category */}
             {product.category && (
-              <p className="text-[8px] md:text-[10px] text-gray-400 font-bold uppercase tracking-[0.1em] mb-1 md:mb-1.5">
+              <p className="text-[8px] md:text-[9px] text-gray-400 font-bold uppercase tracking-[0.1em] mb-1">
                 {product.category}
               </p>
             )}
 
             {/* Product Title */}
-            <h3 className="font-bold text-gray-900 text-[11px] md:text-base mb-1 md:mb-2 line-clamp-2 leading-tight md:leading-snug hover:text-primary transition-colors duration-200">
+            <h3 className="font-bold text-gray-900 text-[10px] md:text-sm mb-1 line-clamp-2 leading-tight md:leading-snug hover:text-primary transition-colors duration-200">
               {product.name}
             </h3>
-
-            {/* Price Section */}
-            <div className="flex items-center flex-wrap gap-1 md:gap-2 mb-2 md:mb-4">
-              <span className="font-extrabold text-gray-900 text-sm md:text-xl">
-                Rs. {Number(product.price).toLocaleString()}
-              </span>
-              {product.compare_price && (
-                <span className="text-[10px] md:text-sm text-gray-400 line-through">
-                  Rs. {Number(product.compare_price).toFixed(0)}
-                </span>
-              )}
-            </div>
           </div>
 
           {/* Action Buttons Section */}
-          <div className="flex items-center gap-1.5 md:gap-2 mt-auto">
+          <div className="flex items-center gap-1 md:gap-1.5 mt-auto pt-2">
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={handleBuyNow}
               disabled={isOutOfStock}
-              className={`flex-1 py-2 md:py-3.5 rounded-lg md:rounded-xl font-bold text-[9px] md:text-xs uppercase tracking-[0.05em] md:tracking-[0.1em] transition-all duration-300 flex items-center justify-center gap-2 shadow-sm ${
+              className={`flex-1 py-1.5 md:py-2 rounded-lg font-bold text-[9px] md:text-[10px] uppercase tracking-[0.05em] md:tracking-[0.1em] transition-all duration-300 flex items-center justify-center gap-1 shadow-sm ${
                 isOutOfStock
                   ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                   : 'bg-gray-900 text-white hover:bg-black hover:shadow-md'
@@ -160,14 +149,14 @@ export default function ProductCard({
               whileTap={{ scale: 0.95 }}
               onClick={handleAddToCart}
               disabled={isOutOfStock}
-              className={`w-8 h-8 md:w-12 md:h-12 flex-shrink-0 rounded-lg md:rounded-xl flex items-center justify-center transition-all duration-300 shadow-sm ${
+              className={`w-7 h-7 md:w-9 md:h-9 flex-shrink-0 rounded-lg flex items-center justify-center transition-all duration-300 shadow-sm ${
                 isOutOfStock
                   ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                   : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
               }`}
               aria-label="Add to cart"
             >
-              <ShoppingCart className="w-3.5 h-3.5 md:w-5 md:h-5" />
+              <ShoppingCart className="w-3.5 h-3.5 md:w-4 md:h-4" />
             </motion.button>
           </div>
         </div>
