@@ -38,9 +38,10 @@ export default function MainHero() {
           <div className="relative z-10 rounded-3xl overflow-hidden border-4 border-white bg-white p-2 shadow-2xl">
             <div className="absolute inset-0 bg-gradient-to-tr from-green-100/20 to-transparent pointer-events-none"></div>
             <img 
+              loading="lazy"
               alt="Hakeem Muhammad Amin" 
               className="w-full h-auto rounded-2xl object-cover grayscale-[0.1] contrast-[1.05]" 
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuBEWCAIp2T7RvT3jDKGCyo2ckZ9Z4oYgrFvYhpiEnhT4hYYUUAB4TdpKp83r4TkRTNmbYgFK-MhhAjiGihUx6pKWhdd6aBMfa4FrC_nMrpOz5fz0kAv3Awff2BehPNqr7pEAAMOVTXreFBLp2Np-P7KuoBPF5PVoqUrI3Mhox8509bjQZcgaAIy8zGPPp8cxdku5bv1gSsLSon254HM39eODpCWnYIXfuraQViDFYxhMtHOersN0897EtgLHskIxEErAPfYJraHiBI" 
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuBEWCAIp2T7RvT3jDKGCyo2ckZ9Z4oYgrFvYhpiEnhT4hYYUUAB4TdpKp83r4TkRTNmbYgFK-MhhAjiGihUx6pKWhdd6aBMfa4FrC_nMrpOz5fz0kAv3Awff2BehPNqr7pEAAMOVTXreFBLp2Np-P7KuoBPF5PVoqUrI3Mhox8509bjQZcgaAIy8zGPPp8cxdku5bv1gSsLSon254HM39eODpCWnYIXfuraQViDFYxhMtHOersN0897EtgLHskIxEErAPfYJraHiBI=w800" 
             />
             <div className="absolute bottom-6 left-6 right-6 bg-black/90 backdrop-blur-md p-5 rounded-2xl border border-white/10">
               <h3 className="text-xl font-bold text-white mb-0.5 font-display">Hakeem Muhammad Amin</h3>

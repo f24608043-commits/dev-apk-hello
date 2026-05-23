@@ -71,33 +71,37 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="bg-white p-4 rounded-2xl shadow-lg border border-gray-100 transform hover:scale-[1.02] transition-transform duration-300">
               <img 
+                loading="lazy"
                 alt="License to Practice" 
                 className="w-full aspect-[4/5] object-cover rounded-xl mb-4" 
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCr6HNBO9000c_O00RIYohc0o1Env9Yxa49414xrJ3ejL-gtjZ_VOIs9HKc93ulAkCdndk6CPzlMbUAZubXyl6VHQevzHEZ-DTsiaXsxWtW7Rj6QuAJX2XILU0ph5R9hI26ybHRMGnybLouQJcRgj3xZlKkPKboPhdyNcnOkfdZcYwHQWqyWnA4Q4zEN0RCb9bWD_zT8xz5lZQuTEyRyT6D5Xkr31r7CiuAN3a3TW2hlc08TUMr1OSYggog2MgnQ50sq0ikbWipKcY" 
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCr6HNBO9000c_O00RIYohc0o1Env9Yxa49414xrJ3ejL-gtjZ_VOIs9HKc93ulAkCdndk6CPzlMbUAZubXyl6VHQevzHEZ-DTsiaXsxWtW7Rj6QuAJX2XILU0ph5R9hI26ybHRMGnybLouQJcRgj3xZlKkPKboPhdyNcnOkfdZcYwHQWqyWnA4Q4zEN0RCb9bWD_zT8xz5lZQuTEyRyT6D5Xkr31r7CiuAN3a3TW2hlc08TUMr1OSYggog2MgnQ50sq0ikbWipKcY=w800" 
               />
               <p className="font-bold text-center text-black text-xs uppercase tracking-widest">National Council for Tibb</p>
             </div>
             <div className="bg-white p-4 rounded-2xl shadow-lg border border-gray-100 transform hover:scale-[1.02] transition-transform duration-300">
               <img 
+                loading="lazy"
                 alt="Graduation Group" 
                 className="w-full aspect-[4/5] object-cover rounded-xl mb-4" 
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXUyt0GclFyzP3nJ0hiuJqzYXsEy23hNfvxjfcTq2og1hIfOE8zk5ogogzr7aSB2109MRlNyv2HvTU7hD-saGisU3V0CB-k8E2ocjzC3gfJMsIxSGDWLpEVa-R3sNXNh5ef4QWQFHGmZiEiy-bK31xMg13mkBoJPZROqtOWgEVotm9VbMM8zw0fqBy11QsL5Jthttc4-mQsjJwh9rpEj8-GxhprcqQha4E2Na_9p4TKNz-egzOXNSKmm6TZHvenhuaRXgCtVmMMkk" 
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXUyt0GclFyzP3nJ0hiuJqzYXsEy23hNfvxjfcTq2og1hIfOE8zk5ogogzr7aSB2109MRlNyv2HvTU7hD-saGisU3V0CB-k8E2ocjzC3gfJMsIxSGDWLpEVa-R3sNXNh5ef4QWQFHGmZiEiy-bK31xMg13mkBoJPZROqtOWgEVotm9VbMM8zw0fqBy11QsL5Jthttc4-mQsjJwh9rpEj8-GxhprcqQha4E2Na_9p4TKNz-egzOXNSKmm6TZHvenhuaRXgCtVmMMkk=w800" 
               />
               <p className="font-bold text-center text-black text-xs uppercase tracking-widest">Rawalpindi Tibbia Alumni</p>
             </div>
             <div className="grid grid-rows-2 gap-4">
               <div className="bg-white p-2 rounded-2xl shadow-lg border border-gray-100 transform hover:scale-[1.02] transition-transform duration-300">
                 <img 
+                  loading="lazy"
                   alt="Meeting 1" 
                   className="w-full h-full object-cover rounded-xl" 
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuBD5WlNK0PZuAPSNQBXGSkCLTcRDb0HvJKnCW_7WOVFKEQMJcQA-UmriZ3LJL93dMMeSfYX1tpU0pngj78HfdcO2H0uyAZUT7xuKCU50Ads6LTz5ghFesFTsjaTxURamL2LeTGON2PbqbARQTaIqcjnXoYQfqJ3j3oUErf52ywYYItX_fEgS_rQYRZOU_n-2cnEUkbnqUFXiYMFh46h9_Av_iT9RfMN-t-jFhezeU4uJsd1lZC5FIsM-pKp3p7DLfiiBa7A6tCp4ZE" 
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuBD5WlNK0PZuAPSNQBXGSkCLTcRDb0HvJKnCW_7WOVFKEQMJcQA-UmriZ3LJL93dMMeSfYX1tpU0pngj78HfdcO2H0uyAZUT7xuKCU50Ads6LTz5ghFesFTsjaTxURamL2LeTGON2PbqbARQTaIqcjnXoYQfqJ3j3oUErf52ywYYItX_fEgS_rQYRZOU_n-2cnEUkbnqUFXiYMFh46h9_Av_iT9RfMN-t-jFhezeU4uJsd1lZC5FIsM-pKp3p7DLfiiBa7A6tCp4ZE=w800" 
                 />
               </div>
               <div className="bg-white p-2 rounded-2xl shadow-lg border border-gray-100 transform hover:scale-[1.02] transition-transform duration-300">
                 <img 
+                  loading="lazy"
                   alt="Meeting 2" 
                   className="w-full h-full object-cover rounded-xl" 
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMwmNPWRxmf9UhQZ9AczEm9VHJ7439xzBfPc-Z2-SQywVTfHfwGHC0Nn0AoNj-apbeRcTLdqcOHqUimbsNfDFQ0H-nPKjsoHZyyxSfPN0kAlq3M4SUBkfqqt234Tb9T1xyqOD3bdJH7UmMPKJzVR4EGkcspmsUh1zQN2vW7R0lpSyMg4Q2RpU3hey36dFuM_hIVwbvZ4akxeAUKqQBf9IdzRXak61Ii-Rvx1Xo2382dvs6gDGH4UBQTWPhXq9wG9oYsb7nVzlFjiQ" 
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMwmNPWRxmf9UhQZ9AczEm9VHJ7439xzBfPc-Z2-SQywVTfHfwGHC0Nn0AoNj-apbeRcTLdqcOHqUimbsNfDFQ0H-nPKjsoHZyyxSfPN0kAlq3M4SUBkfqqt234Tb9T1xyqOD3bdJH7UmMPKJzVR4EGkcspmsUh1zQN2vW7R0lpSyMg4Q2RpU3hey36dFuM_hIVwbvZ4akxeAUKqQBf9IdzRXak61Ii-Rvx1Xo2382dvs6gDGH4UBQTWPhXq9wG9oYsb7nVzlFjiQ=w800" 
                 />
               </div>
             </div>
