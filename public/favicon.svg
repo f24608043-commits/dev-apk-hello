@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <!-- Background -->
+  <rect width="256" height="256" fill="#fff8f3"/>
+  
+  <!-- Herbal leaf stems -->
+  <path d="M128 80 Q120 100 115 120 Q112 130 110 140" stroke="#2d5016" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M128 80 Q136 100 141 120 Q144 130 146 140" stroke="#2d5016" stroke-width="3" fill="none" stroke-linecap="round"/>
+  
+  <!-- Left leaf group -->
+  <path d="M110 140 Q95 135 85 145 Q80 150 85 160 Q95 155 110 160 Z" fill="#4a7c2c" stroke="#2d5016" stroke-width="2"/>
+  <path d="M110 140 Q105 130 95 125 Q85 120 80 130 Q85 135 105 145 Z" fill="#5fa838" stroke="#2d5016" stroke-width="2"/>
+  <path d="M110 140 Q108 150 100 160 Q92 168 95 175 Q105 170 115 165 Z" fill="#5fa838" stroke="#2d5016" stroke-width="2"/>
+  
+  <!-- Right leaf group -->
+  <path d="M146 140 Q161 135 171 145 Q176 150 171 160 Q161 155 146 160 Z" fill="#4a7c2c" stroke="#2d5016" stroke-width="2"/>
+  <path d="M146 140 Q151 130 161 125 Q171 120 176 130 Q171 135 151 145 Z" fill="#5fa838" stroke="#2d5016" stroke-width="2"/>
+  <path d="M146 140 Q148 150 156 160 Q164 168 161 175 Q151 170 141 165 Z" fill="#5fa838" stroke="#2d5016" stroke-width="2"/>
+  
+  <!-- Center leaf -->
+  <ellipse cx="128" cy="120" rx="8" ry="18" fill="#5fa838" stroke="#2d5016" stroke-width="2" transform="rotate(-15 128 120)"/>
+  <ellipse cx="128" cy="110" rx="7" ry="16" fill="#6fb940" stroke="#2d5016" stroke-width="2" transform="rotate(-15 128 110)"/>
+  
+  <!-- Medicinal bowl outline at bottom -->
+  <path d="M100 180 Q100 200 128 210 Q156 200 156 180 Z" fill="none" stroke="#8b6f47" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M105 185 Q105 195 128 202 Q151 195 151 185" fill="none" stroke="#a0826d" stroke-width="1.5" stroke-linecap="round"/>
+</svg>

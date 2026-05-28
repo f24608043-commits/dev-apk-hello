@@ -3,6 +3,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/context/AuthContext';
 import { useState, useEffect } from 'react';
+import { setSeoTags } from '@/lib/seo';
 import ProductCard from '@/components/products/ProductCard';
 import { addToLocalCart } from '@/lib/cart';
 
@@ -172,14 +173,23 @@ export default function ProductDetailPage() {
   });
 
   useEffect(() => {
-    if (product?.name) {
-      document.title = `${product.name} - #1 Wholesale & Bulk Supplier | Badshah Di Hatti`;
-      const metaDescription = document.querySelector('meta[name="description"]');
-      if (metaDescription) {
-        metaDescription.setAttribute("content", `Buy premium authentic ${product.name} at wholesale prices. Badshah Di Hatti is the exclusive wholesale supplier for natural herbal remedies and Tibb solutions.`);
-      }
-    }
-  }, [product?.name]);
+    if (!product?.name) return;
+
+    const title = `${product.name} | Badshah Di Hatti`;
+    const description = product.description
+      ? String(product.description)
+      : `Buy premium authentic ${product.name} at wholesale prices. Badshah Di Hatti is the exclusive wholesale supplier for natural herbal remedies and Tibb solutions.`;
+
+    // Prefer product image if available
+    const ogImageUrl = product.image_1 || product.image_2 || product.image_3 || undefined;
+
+    setSeoTags({
+      title,
+      description,
+      ogImageUrl,
+      canonicalUrl: window.location.href,
+    });
+  }, [product?.id, product?.name, product?.description, product?.image_1, product?.image_2, product?.image_3]);
 
   if (isLoading) return <div className="p-6 font-mono text-xs text-muted-foreground">FETCHING DATA...</div>;
   if (!product) return <div className="p-6 font-mono text-xs text-destructive">PRODUCT_NOT_FOUND.</div>;
@@ -228,13 +238,6 @@ export default function ProductDetailPage() {
             {category && <Link to={`/shop?category=${category.slug}`} className="text-muted-foreground hover:text-accent">{category.name}</Link>}
           </div>
 
-          <div className="mt-4 flex items-center gap-3">
-            <span className="data-text text-2xl">Rs. {Number(product.price).toFixed(2)}</span>
-            {product.compare_price && (
-              <span className="data-text text-lg text-muted-foreground line-through">Rs. {Number(product.compare_price).toFixed(2)}</span>
-            )}
-          </div>
-
           <div className="mt-4 flex items-center gap-4">
             <label className="label-text">QTY</label>
             <input
@@ -268,8 +271,9 @@ export default function ProductDetailPage() {
             >
               {product.stock === 0 ? 'OUT OF STOCK' : 'BUY NOW'}
             </button>
+            {/* WhatsApp Order Button - now uses +92 300 2500026 */}
             <a
-              href={`https://wa.me/923335203553?text=${encodeURIComponent(`Hello, I'm interested in ordering: ${product?.name}\n\nPrice: Rs. ${Number(product?.price).toFixed(2)}${product?.compare_price ? `\nOriginal Price: Rs. ${Number(product?.compare_price).toFixed(2)}` : ''}\n\nQuantity: ${quantity}\n\nLink: ${window.location.href}\n\nPlease confirm availability and payment details.`)}`}
+              href={`https://wa.me/923002500026?text=${encodeURIComponent(`Hello, I'm interested in ordering: ${product?.name}\n\nQuantity: ${quantity}\n\nLink: ${window.location.href}\n\nPlease confirm availability and payment details.`)}`}
               target="_blank"
               rel="noopener noreferrer"
               className="flex-1 bg-green-600 py-3 text-xs font-bold uppercase tracking-widest text-white hover:bg-green-700 disabled:opacity-50 flex items-center justify-center gap-2"

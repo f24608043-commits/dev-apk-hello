@@ -1,4 +1,6 @@
 import { useSearchParams, Link, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { setSeoTags } from '@/lib/seo';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/context/AuthContext';
@@ -123,6 +125,33 @@ export default function ShopPage() {
   }
 
   const totalPages = Math.ceil((productsData?.total ?? 0) / perPage);
+
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams);
+    const category = params.get('category');
+    const brand = params.get('brand');
+    const search = params.get('search');
+
+    const parts: string[] = [];
+    if (search) parts.push(`Search: ${search}`);
+    if (category) parts.push(`Category: ${category}`);
+    if (brand) parts.push(`Brand: ${brand}`);
+
+    const title = parts.length
+      ? `Shop - ${parts.join(' | ')} | Badshah Di Hatti`
+      : `Shop | Badshah Di Hatti`;
+
+    const description = parts.length
+      ? `Explore herbal medicines and natural remedies. ${parts.join('. ')}. Wholesale & bulk orders available at Badshah Di Hatti.`
+      : `Explore our complete range of herbal remedies and tibb solutions. Wholesale & bulk orders available at Badshah Di Hatti.`;
+
+    setSeoTags({
+      title,
+      description,
+      canonicalUrl: window.location.href,
+      ogImageUrl: '/images/herobanner1.png',
+    });
+  }, [searchParams]);
 
   return (
     <div className="min-h-screen relative overflow-hidden">
