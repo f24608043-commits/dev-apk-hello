@@ -4,8 +4,8 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import Hero from '@/components/hero/Hero';
-import { Banner } from '@/components/hero/HeroSlider';
+import BannerCarousel from '@/components/BannerCarousel';
+
 
 import ProductCard from '@/components/products/ProductCard';
 import SocialSection from '@/components/SocialSection';
@@ -308,26 +308,7 @@ function FeaturedVideoSection() {
 import MainHero from '@/components/hero/MainHero';
 
 export default function HomePage() {
-  const banners: Banner[] = [
-    {
-      id: '1',
-      image: 'https://lh3.googleusercontent.com/pw/AP1GczOhwkUAMxu5IsvpAQoq7s1nMwtvQMovRx5JcA4omfHZkgdAOtfW-LShlm4kI381WQtVCTATK4PsLdeg6Ebz66Ftc_dAT6N8VAN5OjQc8pBOdlySf90SbK2zT76AjIBwZgv2-9sMzWGKHSpp4_jKjwg=w1631-h667-s-no-gm',
-      title: 'Badshah Di Hatti',
-      subtitle: 'Authentic Herbal Solutions for Generations',
-    },
-    {
-      id: '2',
-      image: 'https://lh3.googleusercontent.com/pw/AP1GczMd3XoTegfD7jcRcR8_Eh3bsw8WXCJAu4jYcsMOgNb5dloBVjZbFhyBgLEdLIisCge51VYvpy2YKeEJ_GB8MS-H6XWRqOyY7RI75VrNIEZKTgaXb5onSUWMqsmK2AQLZXPAq8TdBsKGOC9XYUtqMSM=w1162-h467-s-no-gm',
-      title: '100% Natural Treatments',
-      subtitle: 'Preserving the Heritage of Tibb',
-    },
-    {
-      id: '3',
-      image: 'https://lh3.googleusercontent.com/pw/AP1GczMcRfiM3k2uao8llvnzOygGpYPpM8eQgAPbulvbV0ClQzbyKtYuaf88KvHA9_P_BMX0DNOHM5g0Gq8Hi2y888VvUQNxKyrL6QpqlrB-KRFRZFp2tcpH1JAETzonNFe47Q-ZE6iuH67L9oLNMB3Pmw0=w1376-h768-s-no-gm?authuser=0',
-      title: 'Premium Herbal Care',
-      subtitle: 'Expert Remedies for Men, Women & Children',
-    },
-  ];
+  // Landscape hero banner removed
 
   return (
     <div className="min-h-screen relative overflow-hidden">
@@ -340,10 +321,24 @@ export default function HomePage() {
         {/* Main Profile Hero */}
         <MainHero />
 
-        {/* Banner Slider Hero */}
-        <div className="container mx-auto px-4 mb-16">
-          <Hero banners={banners} />
-        </div>
+          {/* Square Banner Carousel */}
+          <div className="container mx-auto px-4 mb-16">
+
+            <BannerCarousel 
+              images={[
+                'https://res.cloudinary.com/da1lnrcuv/image/upload/v1779967996/Screenshot_2026-05-15_172355_vpgerp.png',
+                'https://res.cloudinary.com/da1lnrcuv/image/upload/v1779967995/Screenshot_2026-05-15_164255_saufel.png',
+                'https://res.cloudinary.com/da1lnrcuv/image/upload/v1779967994/Screenshot_2026-05-15_164156_vtx49j.png',
+                'https://res.cloudinary.com/da1lnrcuv/image/upload/v1779967996/Screenshot_2026-05-15_171146_rm1yrm.png',
+                'https://res.cloudinary.com/da1lnrcuv/image/upload/v1779967997/Screenshot_2026-05-15_175122_whmfmu.png',
+                'https://res.cloudinary.com/da1lnrcuv/image/upload/v1779967996/Screenshot_2026-05-15_172355_vpgerp.png',
+                'https://res.cloudinary.com/da1lnrcuv/image/upload/v1779967999/Screenshot_2026-05-15_195540_jm8pyo.png',
+                'https://res.cloudinary.com/da1lnrcuv/image/upload/v1780168930/Screenshot_2026-05-18_222304_ch6dxz.png',
+              ]}
+              autoPlay={true}
+              interval={2000}
+            />
+          </div>
 
         <div className="container mx-auto px-4 py-16">
           <FeaturedProducts />
