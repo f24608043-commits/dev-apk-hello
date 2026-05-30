@@ -5,7 +5,7 @@ import { useAuth } from '@/context/AuthContext';
 import { useState, useEffect } from 'react';
 import ProductCard from '@/components/products/ProductCard';
 import { addToLocalCart } from '@/lib/cart';
-import Breadcrumb from '@/components/Breadcrumb';
+import Breadcrumb from '@/components/breadcrumb';
 import SchemaMarkupInjector from '@/components/SchemaMarkupInjector';
 import {
   setMetaTags,
